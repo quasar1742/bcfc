@@ -26,6 +26,7 @@ import {
   revealStagger,
   staggerChild,
   VIEWPORT_ONCE,
+  VIEWPORT_REPLAY,
 } from "../lib/anim"
 import { SectionKicker } from "../components/ui"
 import { CardBack, PlayingCard, SUIT_CHAR } from "../components/cards"
@@ -81,7 +82,7 @@ function FlipCard({
         className="flip-inner relative h-full w-full"
         initial={{ rotateY: reduced ? 180 : 0 }}
         whileInView={reduced ? undefined : { rotateY: 180 }}
-        viewport={VIEWPORT_ONCE}
+        viewport={VIEWPORT_REPLAY}
         transition={{ duration: 0.55, ease: EASE, delay }}
       >
         <div className="flip-face absolute inset-0">
@@ -107,7 +108,7 @@ function DeckDiagram({ reduced }: { reduced: boolean }) {
         variants={dealRow}
         initial={reduced ? "visible" : "hidden"}
         whileInView="visible"
-        viewport={VIEWPORT_ONCE}
+        viewport={VIEWPORT_REPLAY}
       >
         {DECK_SLOTS.map((slot) => (
           <motion.div key={slot} variants={dealChild}>
@@ -136,7 +137,7 @@ function DeckDiagram({ reduced }: { reduced: boolean }) {
                 ? undefined
                 : { opacity: [0, 1, 1, 0], y: [8, 0, 0, 16] }
             }
-            viewport={VIEWPORT_ONCE}
+            viewport={VIEWPORT_REPLAY}
             transition={{
               duration: 2.4,
               times: [0, 0.2, 0.62, 1],
@@ -168,7 +169,7 @@ function AskDiagram({ reduced }: { reduced: boolean }) {
           className="absolute inset-x-0 top-0 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-gold-deep"
           initial={{ opacity: reduced ? 1 : 0 }}
           whileInView={reduced ? undefined : { opacity: [0, 0, 1, 1, 0] }}
-          viewport={VIEWPORT_ONCE}
+          viewport={VIEWPORT_REPLAY}
           transition={{
             duration: ASK_D,
             times: [0, 0.24, 0.32, 0.9, 1],
@@ -192,7 +193,7 @@ function AskDiagram({ reduced }: { reduced: boolean }) {
             whileInView={
               reduced ? undefined : { pathLength: [0, 1, 1], opacity: [1, 1, 0] }
             }
-            viewport={VIEWPORT_ONCE}
+            viewport={VIEWPORT_REPLAY}
             transition={{
               pathLength: {
                 duration: ASK_D,
@@ -212,7 +213,7 @@ function AskDiagram({ reduced }: { reduced: boolean }) {
             strokeLinejoin="round"
             initial={{ opacity: reduced ? 1 : 0 }}
             whileInView={reduced ? undefined : { opacity: [0, 0, 1, 1, 0] }}
-            viewport={VIEWPORT_ONCE}
+            viewport={VIEWPORT_REPLAY}
             transition={{
               duration: ASK_D,
               times: [0, 0.2, 0.27, 0.9, 1],
@@ -230,7 +231,7 @@ function AskDiagram({ reduced }: { reduced: boolean }) {
               ? undefined
               : { x: [74, 74, 0, 0], opacity: [0, 0, 1, 1, 0] }
           }
-          viewport={VIEWPORT_ONCE}
+          viewport={VIEWPORT_REPLAY}
           transition={{
             x: {
               duration: ASK_D,
@@ -288,7 +289,7 @@ function LeakDiagram({ reduced }: { reduced: boolean }) {
             whileInView={
               reduced ? undefined : { scale: [0.3, 1], opacity: [0, 0.4, 0] }
             }
-            viewport={VIEWPORT_ONCE}
+            viewport={VIEWPORT_REPLAY}
             transition={{
               scale: { duration: 3, ease: "easeOut", repeat: Infinity, delay: i },
               opacity: {
@@ -313,7 +314,7 @@ function LeakDiagram({ reduced }: { reduced: boolean }) {
           className={`absolute font-mono text-[9px] uppercase tracking-[0.16em] text-fog ${note.pos}`}
           initial={reduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 6 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={VIEWPORT_ONCE}
+          viewport={VIEWPORT_REPLAY}
           transition={{ duration: 0.5, ease: EASE, delay: note.delay }}
         >
           {note.text}
@@ -354,7 +355,7 @@ function DeclareDiagram({ reduced }: { reduced: boolean }) {
               : { opacity: 0, scale: 1.5, rotate: -8 }
           }
           whileInView={{ opacity: 1, scale: 1, rotate: -8 }}
-          viewport={VIEWPORT_ONCE}
+          viewport={VIEWPORT_REPLAY}
           transition={{ ...SPRING_FIRM, delay: reduced ? 0 : 1.35 }}
         >
           BOOK +1

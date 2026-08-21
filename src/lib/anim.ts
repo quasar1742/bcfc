@@ -35,3 +35,7 @@ export const staggerChild: Variants = {
 }
 
 export const VIEWPORT_ONCE = { once: true, margin: "-80px" } as const
+
+// For illustrative animations that should reset when scrolled away and
+// replay on re-entry (mobile step diagrams).
+export const VIEWPORT_REPLAY = { once: false, amount: 0.35 } as const
