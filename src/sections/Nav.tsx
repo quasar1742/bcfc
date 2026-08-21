@@ -127,9 +127,17 @@ export default function Nav() {
             type="button"
             onClick={scrollTop}
             aria-label="Berkeley Canadian Fish Club, back to top"
-            className="group flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berkeley focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            className={`group flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+              scrolled
+                ? "focus-visible:ring-berkeley focus-visible:ring-offset-paper"
+                : "focus-visible:ring-gold focus-visible:ring-offset-berkeley"
+            }`}
           >
-            <span className="font-display text-xl font-semibold tracking-[-0.01em] text-berkeley">
+            <span
+              className={`font-display text-xl font-semibold tracking-[-0.01em] transition-colors duration-300 ${
+                scrolled ? "text-berkeley" : "text-paper"
+              }`}
+            >
               {NAV.monogram}
             </span>
             <SuitGlyph
@@ -147,7 +155,11 @@ export default function Nav() {
                 key={link.id}
                 type="button"
                 onClick={() => scrollToId(link.id)}
-                className="rounded-sm py-1 font-display text-[15px] font-medium tracking-[-0.01em] text-berkeley/70 transition-colors duration-200 hover:text-berkeley focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berkeley"
+                className={`rounded-sm py-1 font-display text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                  scrolled
+                    ? "text-berkeley/70 hover:text-berkeley focus-visible:ring-berkeley"
+                    : "text-paper/80 hover:text-paper focus-visible:ring-gold"
+                }`}
               >
                 {link.label}
               </button>
@@ -155,6 +167,7 @@ export default function Nav() {
             <GoldButton
               targetId={NAV.cta.id}
               variant="solid"
+              dark={!scrolled}
               className="px-5! py-2!"
             >
               {NAV.cta.label}
@@ -169,7 +182,11 @@ export default function Nav() {
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
             aria-controls="bcfc-mobile-menu"
-            className="rounded-sm py-1 font-display text-[15px] font-medium tracking-[-0.01em] text-berkeley transition-colors duration-200 hover:text-gold-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-berkeley md:hidden"
+            className={`rounded-sm py-1 font-display text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 md:hidden ${
+              scrolled
+                ? "text-berkeley hover:text-gold-deep focus-visible:ring-berkeley"
+                : "text-paper hover:text-gold focus-visible:ring-gold"
+            }`}
           >
             Menu
           </button>

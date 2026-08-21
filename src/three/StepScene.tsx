@@ -149,38 +149,22 @@ function useTextures() {
 type Tex = ReturnType<typeof useTextures>
 type Diorama = { progress: MotionValue<number>; tex: Tex }
 
-// The dioramas are authored in a fixed design space; FittedStage measures the
-// text column and viewport on every resize and scales/positions the whole
-// stage into the space right of the copy, so no card ever crosses the text
-// at ANY aspect ratio.
+// The dioramas are authored in a fixed design space. The Canvas itself is
+// clipped to the right-hand visual lane, and FittedStage scales the design
+// inside that lane. This is a hard collision boundary: WebGL pixels cannot
+// enter the copy column at any desktop aspect ratio.
 const DESIGN_LEFT = -3.45
 const DESIGN_RIGHT = 3.45
-const CAM_X = -1.55
 
 function FittedStage({ children }: { children: ReactNode }) {
   const viewportW = useThree((s) => s.viewport.width)
-  const sizeW = useThree((s) => s.size.width)
-
-  const { offsetX, scale } = useMemo(() => {
-    // Text column geometry in CSS px (mirrors the overlay layout: centered
-    // max-w-6xl container, px-10 padding, max-w-md column).
-    const containerW = Math.min(1152, sizeW)
-    const textRightPx = (sizeW - containerW) / 2 + 40 + 448 + 28
-    const worldPerPx = viewportW / sizeW
-    const textRightWorld = CAM_X + (textRightPx - sizeW / 2) * worldPerPx
-    const stageLeft = textRightWorld + 0.3
-    const stageRight = CAM_X + viewportW / 2 - 0.35
+  const scale = useMemo(() => {
     const design = DESIGN_RIGHT - DESIGN_LEFT
-    const avail = Math.max(1, stageRight - stageLeft)
-    const scale = Math.min(1, avail / design)
-    // Centre the scaled design inside the available band.
-    const offsetX =
-      (stageLeft + stageRight) / 2 - ((DESIGN_LEFT + DESIGN_RIGHT) / 2) * scale
-    return { offsetX, scale }
-  }, [viewportW, sizeW])
+    return Math.min(1, Math.max(0.34, (viewportW - 0.65) / design))
+  }, [viewportW])
 
   return (
-    <group position={[offsetX, 0, 0]} scale={scale}>
+    <group scale={scale}>
       {children}
     </group>
   )
@@ -581,11 +565,9 @@ export default function StepScene({
   const [dpr, setDpr] = useState(maxDpr)
 
   return (
-    <div ref={wrapRef} className="absolute inset-0">
+    <div ref={wrapRef} className="step-scene-canvas">
       <Canvas
-        // Camera sits left of origin so the action reads right-of-text on the
-        // full-bleed stage.
-        camera={{ position: [-1.55, -0.15, 10.6], fov: 30 }}
+        camera={{ position: [0, -0.15, 10.6], fov: 30 }}
         dpr={isStatic ? 1.5 : dpr}
         gl={{
           antialias: true,
