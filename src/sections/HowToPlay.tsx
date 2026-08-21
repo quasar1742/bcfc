@@ -447,7 +447,7 @@ function ScrollySteps() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -26 }}
                 transition={{ duration: 0.3, ease: EASE }}
-                className="absolute inset-0 flex flex-col justify-center"
+                className="absolute inset-0 flex flex-col items-start justify-center"
               >
                 <span
                   aria-hidden="true"
@@ -455,14 +455,17 @@ function ScrollySteps() {
                 >
                   {step.index}
                 </span>
-                <p className="font-display text-[12px] font-semibold uppercase tracking-[0.2em] text-gold">
+                {/* Highlighter-style frosted strips that hug each text run. */}
+                <p className="w-fit rounded-md bg-berkeley/55 px-2.5 py-1 font-display text-[12px] font-semibold uppercase tracking-[0.2em] text-gold backdrop-blur-[6px]">
                   {step.index} / {step.title}
                 </p>
-                <h3 className="mt-4 font-display text-3xl font-medium tracking-[-0.01em] text-paper md:text-4xl">
+                <h3 className="mt-3 w-fit rounded-lg bg-berkeley/55 px-3 py-1 font-display text-3xl font-medium tracking-[-0.01em] text-paper backdrop-blur-[6px] md:text-4xl">
                   {step.title}
                 </h3>
-                <p className="mt-4 max-w-md font-display text-[16px] leading-relaxed text-mist">
-                  {step.body}
+                <p className="mt-3 max-w-md font-display text-[16px] leading-[1.9] text-paper/90">
+                  <span className="rounded-[6px] bg-berkeley/55 box-decoration-clone px-2 py-[3px] backdrop-blur-[6px]">
+                    {step.body}
+                  </span>
                 </p>
               </motion.div>
             </AnimatePresence>
