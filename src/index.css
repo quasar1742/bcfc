@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme {
+  --color-berkeley: #003262;
+  --color-berkeley-deep: #001d38;
+  --color-gold: #fdb515;
+  --color-gold-deep: #8f6400;
+  --color-maple-soft: #e9938c;
+  --color-paper: #ffffff;
+  --color-paper-soft: #f2f5f8;
+  --color-card: #fdfcf8;
+  --color-maple: #a8322a;
+  --color-fog: #5b6e85;
+  --color-mist: #9fb1c4;
+
+  --font-display: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ease-out-firm: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-berkeley);
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-berkeley);
+  }
+
+  svg text {
+    user-select: none;
+  }
+}
+
+@layer components {
+  /* Infinite marquee track: content must be rendered twice inside. */
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll var(--ticker-duration, 40s) linear infinite;
+    will-change: transform;
+  }
+
+  .ticker-track:hover,
+  .ticker-track:focus-within {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+      animation: none;
+    }
+  }
+
+  @keyframes ticker-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Team marquee rows reuse the same keyframes at slower speeds. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: ticker-scroll var(--marquee-duration, 80s) linear infinite;
+    will-change: transform;
+  }
+
+  .marquee-track--reverse {
+    animation-direction: reverse;
+  }
+
+  .marquee-row:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  /* 3D card flip helpers */
+  .flip-scene {
+    perspective: 1200px;
+  }
+
+  .flip-inner {
+    transform-style: preserve-3d;
+  }
+
+  .flip-face {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* QA mode: force motion-controlled inline opacity to final visibility so
+     screenshots from occluded windows show the finished layout. */
+  .qa-static [style*="opacity"] {
+    opacity: 1 !important;
+  }
+
+  /* Immersive stage: fade the fixed chrome away while the scrollytelling
+     section is pinned (!important beats Motion's inline opacity). */
+  .site-chrome {
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .stage-immersive .site-chrome {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+}
