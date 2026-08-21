@@ -1,8 +1,7 @@
-import { useState, type CSSProperties } from "react"
-import { motion, useReducedMotion } from "motion/react"
+import { useState } from "react"
+import { motion } from "motion/react"
 import { TEAM } from "../lib/content"
 import {
-  reveal,
   revealStagger,
   staggerChild,
   SPRING_FIRM,
@@ -12,48 +11,24 @@ import { SectionKicker } from "../components/ui"
 import { CardBack, SuitGlyph } from "../components/cards"
 
 // ---------------------------------------------------------------------------
-// The Table — the founding six as a two-row card marquee (the HackMIT steal).
-// Face-down backs drift past; hover or focus flips a card to reveal the seat.
-// Firm spring, no bounce. Reduced motion: static rows, horizontal scroll.
+// The Table — the founding six as a calm, responsive card grid. Hover, focus,
+// or tap flips a card to reveal the seat; nothing moves across the screen.
 // ---------------------------------------------------------------------------
 
 type TeamCard = (typeof TEAM.cards)[number]
 
-// Each run repeats its three cards enough times that a single run is wider
-// than the widest supported viewport — the -50% loop is only seamless when
-// one run covers the screen. 21 tiles ≈ 4242px, clear of 4K (3840px).
-const RUN_REPEATS = 7
-
 function FlipCard({
   card,
-  decorative = false,
-  instant = false,
 }: {
   card: TeamCard
-  decorative?: boolean
-  instant?: boolean
 }) {
   const [flipped, setFlipped] = useState(false)
   const red = card.suit === "hearts" || card.suit === "diamonds"
 
-  if (decorative) {
-    // Marquee filler and aria-hidden clones: hover flip only, no semantics.
-    return (
-      <div
-        className="flip-scene mx-4 w-[170px] shrink-0"
-        aria-hidden="true"
-        onMouseEnter={() => setFlipped(true)}
-        onMouseLeave={() => setFlipped(false)}
-      >
-        <FlipInner card={card} flipped={flipped} instant={instant} red={red} />
-      </div>
-    )
-  }
-
   return (
     <button
       type="button"
-      className="flip-scene mx-4 w-[170px] shrink-0 cursor-default rounded-[14px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-berkeley"
+      className="flip-scene w-full max-w-[170px] cursor-default rounded-[14px] text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-berkeley"
       aria-label={`${card.role}, ${card.rank} of ${card.suit}`}
       aria-pressed={flipped}
       onClick={() => setFlipped((f) => !f)}
@@ -62,7 +37,7 @@ function FlipCard({
       onFocus={() => setFlipped(true)}
       onBlur={() => setFlipped(false)}
     >
-      <FlipInner card={card} flipped={flipped} instant={instant} red={red} />
+      <FlipInner card={card} flipped={flipped} red={red} />
     </button>
   )
 }
@@ -70,23 +45,21 @@ function FlipCard({
 function FlipInner({
   card,
   flipped,
-  instant,
   red,
 }: {
   card: TeamCard
   flipped: boolean
-  instant: boolean
   red: boolean
 }) {
   return (
     <motion.div
       className="flip-inner relative aspect-[250/350]"
       animate={{ rotateY: flipped ? 180 : 0 }}
-      transition={instant ? { duration: 0 } : SPRING_FIRM}
+      transition={SPRING_FIRM}
     >
       {/* front — face down */}
       <div className="flip-face absolute inset-0" aria-hidden="true">
-        <CardBack size={170} />
+        <CardBack size={170} className="h-auto w-full" />
       </div>
 
       {/* back — the seat card */}
@@ -122,76 +95,7 @@ function FlipInner({
   )
 }
 
-function MarqueeRow({
-  cards,
-  duration,
-  reverse = false,
-  reduced,
-}: {
-  cards: readonly TeamCard[]
-  duration: string
-  reverse?: boolean
-  reduced: boolean
-}) {
-  // Pause the CSS animation while any card in the row holds keyboard focus
-  // (hover pause is handled in CSS).
-  const [focusPaused, setFocusPaused] = useState(false)
-
-  if (reduced) {
-    // Static fallback: the unique cards, horizontally scrollable.
-    return (
-      <div className="marquee-row overflow-x-auto">
-        <div className="flex w-max items-center px-6 py-2 md:px-10">
-          {cards.map((card) => (
-            <FlipCard key={card.role} card={card} instant />
-          ))}
-        </div>
-      </div>
-    )
-  }
-
-  const run: TeamCard[] = []
-  for (let r = 0; r < RUN_REPEATS; r++) run.push(...cards)
-
-  const renderRun = (hidden: boolean) => (
-    <div className="flex items-center py-2" aria-hidden={hidden || undefined}>
-      {run.map((card, i) => (
-        <FlipCard
-          key={`${card.role}-${i}`}
-          card={card}
-          decorative={hidden || i >= cards.length}
-        />
-      ))}
-    </div>
-  )
-
-  return (
-    <div
-      className="marquee-row overflow-hidden"
-      onFocus={() => setFocusPaused(true)}
-      onBlur={() => setFocusPaused(false)}
-    >
-      <div
-        className={`marquee-track ${reverse ? "marquee-track--reverse" : ""}`}
-        style={
-          {
-            "--marquee-duration": duration,
-            ...(focusPaused ? { animationPlayState: "paused" } : null),
-          } as CSSProperties
-        }
-      >
-        {renderRun(false)}
-        {renderRun(true)}
-      </div>
-    </div>
-  )
-}
-
 export default function Team() {
-  const reducedMotion = useReducedMotion()
-  const rowOne = TEAM.cards.slice(0, 3)
-  const rowTwo = TEAM.cards.slice(3)
-
   return (
     <section
       id="table"
@@ -224,43 +128,19 @@ export default function Team() {
         </motion.div>
       </div>
 
-      {/* Full-bleed marquee — the section itself is already full width. */}
-      <div className="mt-16 w-full">
-        <motion.div
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
-          className="relative"
-        >
-          {!reducedMotion && (
-            <>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-berkeley to-transparent md:w-24"
-              />
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-berkeley to-transparent md:w-24"
-              />
-            </>
-          )}
-
-          <div className="space-y-6">
-            <MarqueeRow
-              cards={rowOne}
-              duration="122s"
-              reduced={!!reducedMotion}
-            />
-            <MarqueeRow
-              cards={rowTwo}
-              duration="150s"
-              reverse
-              reduced={!!reducedMotion}
-            />
-          </div>
-        </motion.div>
-      </div>
+      <motion.div
+        variants={revealStagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={VIEWPORT_ONCE}
+        className="mx-auto mt-16 grid max-w-6xl grid-cols-2 justify-items-center gap-4 px-6 sm:grid-cols-3 sm:gap-6 md:px-10 lg:grid-cols-6 lg:gap-5"
+      >
+        {TEAM.cards.map((card) => (
+          <motion.div key={card.role} variants={staggerChild} className="flex w-full justify-center">
+            <FlipCard card={card} />
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   )
 }

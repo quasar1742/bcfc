@@ -2,13 +2,11 @@ import { motion, useReducedMotion } from "motion/react"
 import { FOOTER, NAV } from "../lib/content"
 import { reveal, revealStagger, staggerChild, VIEWPORT_ONCE } from "../lib/anim"
 import { scrollToId } from "../components/ui"
-import { MAPLE_LEAF_PATH, SuitGlyph } from "../components/cards"
-import { usePuzzle } from "../puzzle/PuzzleProvider"
+import { SuitGlyph } from "../components/cards"
 
 // ---------------------------------------------------------------------------
 // Footer — berkeley-deep close. Monogram, index, colophon, fine print; a lone
-// gold fish swims the width of it. The maple leaf by the copyright is the
-// second hidden puzzle trigger.
+// gold fish swims the width of it.
 // ---------------------------------------------------------------------------
 
 const COORDINATES = "BERKELEY, CALIFORNIA · 37.8719° N, 122.2585° W"
@@ -58,30 +56,6 @@ function SwimmingFish() {
         </svg>
       </motion.div>
     </motion.div>
-  )
-}
-
-// The second hidden puzzle trigger, filed next to the copyright.
-function LeafTrigger() {
-  const { open } = usePuzzle()
-  return (
-    <button
-      type="button"
-      onClick={open}
-      aria-label="A maple leaf that doesn't belong"
-      className="group inline-flex cursor-pointer items-center justify-center rounded-sm p-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-    >
-      <svg
-        viewBox="-11 -11 22 24"
-        width={14}
-        height={15.3}
-        aria-hidden="true"
-        className="opacity-60 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
-      >
-        <path d={MAPLE_LEAF_PATH} fill="var(--color-gold)" />
-        <path d="M-0.6 8 H0.6 L0.9 10.5 H-0.9 Z" fill="var(--color-gold)" />
-      </svg>
-    </button>
   )
 }
 
@@ -157,9 +131,8 @@ export default function Footer() {
           viewport={VIEWPORT_ONCE}
           className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-gold/15 pt-6"
         >
-          <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.18em] text-mist">
-            <span>{FOOTER.copyright}</span>
-            <LeafTrigger />
+          <p className="font-mono text-[11px] tracking-[0.18em] text-mist">
+            {FOOTER.copyright}
           </p>
           <p className="font-mono text-[11px] tracking-[0.18em] text-mist/70">
             {COORDINATES}

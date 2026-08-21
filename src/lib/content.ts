@@ -6,24 +6,23 @@
 export type Suit = "spades" | "hearts" | "clubs" | "diamonds"
 
 export const NAV = {
-  monogram: "BCFC",
+  monogram: "BERKELEY CFC",
   links: [
     { label: "The Game", id: "game" },
     { label: "The Edge", id: "edge" },
-    { label: "Calendar", id: "calendar" },
     { label: "The Table", id: "table" },
   ],
   cta: { label: "Join", id: "join" },
 } as const
 
 export const HERO = {
-  eyebrow: "BERKELEY CANADIAN FISH CLUB · EST. 2026 · UC BERKELEY",
-  // Rendered as three clip-revealed lines; the last line is italic.
-  titleLines: ["Six hands.", "Forty-eight cards.", "Zero luck."],
+  eyebrow: "CANADIAN FISH / LITERATURE · EST. 2026 · UC BERKELEY",
+  titleLines: ["Berkeley", "Canadian Fish Club"],
+  tagline: "Six hands. Forty-eight cards. Zero luck.",
   sub: "Canadian Fish is the deduction game where every question you ask leaks information. The best table wins on inference alone. We're building Berkeley's home for it: weekly tables, tournaments, and the sharpest card players on campus.",
   ctaPrimary: { label: "Take a seat", id: "join" },
   ctaSecondary: { label: "Learn the game", id: "game" },
-  stats: ["48 CARDS", "8 BOOKS", "6 SEATS", "0 LUCK"],
+  diveCue: "Scroll to dive",
   askLog: [
     "03:41.202  N → E   ASK 9♥ ......... HIT",
     "03:44.847  N → E   ASK A♥ ......... MISS",
@@ -46,30 +45,6 @@ export const HERO = {
     { rank: "A", suit: "hearts" },
   ] as { rank: string; suit: Suit }[],
 } as const
-
-// Ticker divider strips. `◆` separators are inserted automatically by the
-// Ticker component; one separator per loop becomes the hidden maple leaf.
-export const TICKER_ITEMS = [
-  "HIGH SPADES",
-  "LOW HEARTS",
-  "ASK WITH PURPOSE",
-  "DECLARE WITH CONVICTION",
-  "EST. 2026",
-  "GO BEARS",
-  "EIGHT BOOKS, SIX SEATS",
-  "(SORRY)",
-] as const
-
-export const TICKER_ITEMS_ALT = [
-  "INFORMATION IS THE ONLY CURRENCY",
-  "LOW CLUBS",
-  "HIGH DIAMONDS",
-  "TRACK EVERY ASK",
-  "TRUST YOUR TEAM",
-  "PRICE YOUR CONVICTION",
-  "EST. 2026",
-  "EH?",
-] as const
 
 export const HOW_TO_PLAY = {
   kicker: { index: "01", title: "THE GAME" },
@@ -102,7 +77,6 @@ export const HOW_TO_PLAY = {
       diagram: "declare",
     },
   ],
-  closer: "That's the whole game. Mastery takes a semester. We'll get you there.",
 } as const
 
 export const THE_EDGE = {
@@ -199,7 +173,7 @@ export const EVENTS = {
 } as const
 
 export const TEAM = {
-  kicker: { index: "05", title: "THE FOUNDING TABLE" },
+  kicker: { index: "03", title: "THE FOUNDING TABLE" },
   heading: "Six founding seats. Most of them still warm.",
   sub: "Flip a card, claim a chair. Officer applications open at the first table.",
   cards: [
@@ -251,7 +225,7 @@ export const TEAM = {
 } as const
 
 export const JOIN = {
-  kicker: { index: "06", title: "JOIN" },
+  kicker: { index: "04", title: "JOIN" },
   heading: "Take a seat.",
   sub: "The interest form takes forty seconds. The habit lasts a career.",
   ctas: [

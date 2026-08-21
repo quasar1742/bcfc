@@ -10,10 +10,12 @@ import {
 import {
   AnimatePresence,
   motion,
+  useAnimationFrame,
   useMotionValue,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type Variants,
 } from "motion/react"
@@ -384,17 +386,62 @@ const STEP_COUNT = HOW_TO_PLAY.steps.length
 // ScrollTrigger pin+scrub pattern, driven natively into three.js).
 function ScrollySteps() {
   const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: rawScrollProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   })
 
+  // Trackpads and high-resolution wheels can emit very large, uneven deltas.
+  // First limit how quickly the animation target may advance, then run that
+  // bounded value through a spring. Large jumps catch up promptly; small
+  // oscillations are filtered instead of making the diorama twitch.
+  const targetProgress = useRef(rawScrollProgress.get())
+  const cappedProgress = useMotionValue(rawScrollProgress.get())
+  useMotionValueEvent(rawScrollProgress, "change", (value) => {
+    targetProgress.current = value
+  })
+  useAnimationFrame((_time, delta) => {
+    const current = cappedProgress.get()
+    const distance = targetProgress.current - current
+    if (Math.abs(distance) < 0.0001) return
+    const seconds = Math.min(delta, 64) / 1000
+    const maxRate = 0.55 + Math.min(1.35, Math.abs(distance) * 2.7)
+    const step = Math.min(Math.abs(distance), maxRate * seconds)
+    cappedProgress.set(current + Math.sign(distance) * step)
+  })
+  const smoothProgress = useSpring(cappedProgress, {
+    stiffness: 115,
+    damping: 30,
+    mass: 0.75,
+    restDelta: 0.0001,
+    restSpeed: 0.0001,
+  })
+
+  // The opening copy owns the first beat. The four dioramas then use the
+  // middle of the scroll range, leaving a short settle zone at the end.
+  const sceneProgress = useTransform(smoothProgress, [0.12, 0.86], [0, 1])
+  const introOpacity = useTransform(smoothProgress, [0, 0.055, 0.135], [1, 1, 0])
+  const introY = useTransform(smoothProgress, [0, 0.135], [0, -34])
+  const sceneVisualOpacity = useTransform(smoothProgress, [0.135, 0.17], [0, 1])
+  const stepCopyOpacity = useTransform(
+    smoothProgress,
+    [0.105, 0.145, 0.94, 0.985],
+    [0, 1, 1, 0],
+  )
+
   // Discrete step switching: exactly one text panel exists at a time, and
   // AnimatePresence waits for the old one to clear before the next enters.
   const [active, setActive] = useState(0)
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
+  useMotionValueEvent(sceneProgress, "change", (v) => {
     const idx = Math.min(STEP_COUNT - 1, Math.max(0, Math.floor(v * STEP_COUNT)))
-    setActive((current) => (current === idx ? current : idx))
+    setActive((current) => {
+      if (idx === current) return current
+      const boundary = idx > current ? (current + 1) / STEP_COUNT : current / STEP_COUNT
+      const clearedBoundary = idx > current ? v > boundary + 0.012 : v < boundary - 0.012
+      return clearedBoundary ? idx : current
+    })
+  })
+  useMotionValueEvent(rawScrollProgress, "change", (v) => {
     // Fade the fixed chrome away while the stage is pinned (desktop only —
     // offsetParent is null when this branch is display:none).
     const pinned = v > 0.002 && v < 0.998 && ref.current?.offsetParent != null
@@ -412,7 +459,7 @@ function ScrollySteps() {
   const dodgeRotate = useTransform(askShift, [0, 1], [0, -0.8])
 
   return (
-    <div ref={ref} className="relative mt-10 h-[420vh]" aria-hidden="true">
+    <div ref={ref} className="relative h-[600vh]" aria-hidden="true">
       {/* Full-bleed immersive stage: the whole viewport goes navy while
           pinned; the 3D scene fills it and the step text rides on top. */}
       <div className="sticky top-0 h-screen overflow-hidden bg-berkeley">
@@ -424,21 +471,55 @@ function ScrollySteps() {
               "radial-gradient(90% 80% at 72% 10%, rgba(253,181,21,0.09) 0%, rgba(0,50,98,0) 46%), radial-gradient(120% 100% at 25% 110%, rgba(0,29,56,0.9) 0%, rgba(0,50,98,0) 55%)",
           }}
         />
-        <Suspense fallback={null}>
-          <StepScene progress={scrollYProgress} askShift={askShift} />
-        </Suspense>
+        <motion.div
+          style={{ opacity: sceneVisualOpacity }}
+          className="game-scene-layer absolute inset-0"
+        >
+          <Suspense fallback={null}>
+            <StepScene progress={sceneProgress} askShift={askShift} />
+          </Suspense>
+        </motion.div>
+
+        {/* The former white intro now opens the immersive scene and clears
+            once the visitor begins scrolling through the four steps. */}
+        <motion.div
+          style={{ opacity: introOpacity, y: introY }}
+          className="game-intro-layer pointer-events-none absolute inset-0 z-20 flex items-center"
+        >
+          <div className="mx-auto w-full max-w-6xl px-6 md:px-10">
+            <div className="max-w-3xl">
+              <SectionKicker
+                index={HOW_TO_PLAY.kicker.index}
+                title={HOW_TO_PLAY.kicker.title}
+                dark
+              />
+              <h2 className="mt-10 font-display text-[clamp(44px,5.8vw,82px)] font-medium leading-[0.94] tracking-[-0.035em] text-paper">
+                {HOW_TO_PLAY.heading}
+              </h2>
+              <p className="mt-6 max-w-2xl font-display text-lg leading-relaxed text-mist md:text-xl">
+                {HOW_TO_PLAY.intro}
+              </p>
+              <p className="mt-8 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-gold/80">
+                Scroll to deal the first hand ↓
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* text overlay */}
-        <div className="pointer-events-none relative z-10 mx-auto flex h-full w-full max-w-6xl items-center px-6 md:px-10">
+        <motion.div
+          style={{ opacity: stepCopyOpacity }}
+          className="game-step-layer pointer-events-none relative z-10 mx-auto flex h-full w-full max-w-[1500px] items-center px-6 md:px-10"
+        >
           <motion.div
             style={{ x: dodgeX, rotate: dodgeRotate }}
-            className="relative min-h-[420px] w-full max-w-md"
+            className="relative min-h-[420px] w-full max-w-[400px] xl:max-w-md"
           >
             {/* progress rail */}
             <div className="absolute -left-8 top-1/2 h-[240px] w-px -translate-y-1/2 bg-white/15">
               <motion.div
                 className="h-full w-px origin-top bg-gold"
-                style={{ scaleY: scrollYProgress }}
+                style={{ scaleY: sceneProgress }}
               />
             </div>
             <AnimatePresence mode="wait" initial={false}>
@@ -471,12 +552,18 @@ function ScrollySteps() {
               </motion.div>
             </AnimatePresence>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* step counter, bottom right */}
-        <div className="pointer-events-none absolute bottom-8 right-8 z-10 font-display text-[12px] font-semibold uppercase tracking-[0.24em] text-mist/80">
+        <motion.div
+          style={{
+            opacity: stepCopyOpacity,
+            right: "max(40px, calc((100vw - 1500px) / 2 + 40px))",
+          }}
+          className="game-counter-layer pointer-events-none absolute bottom-8 z-10 font-display text-[12px] font-semibold uppercase tracking-[0.24em] text-mist/80"
+        >
           {step.index} — 0{STEP_COUNT}
-        </div>
+        </motion.div>
       </div>
     </div>
   )
@@ -485,14 +572,68 @@ function ScrollySteps() {
 // Screen-reader alternative to the visual scrollytelling.
 function StepsSrList() {
   return (
-    <ol className="sr-only">
-      {HOW_TO_PLAY.steps.map((step) => (
-        <li key={step.index}>
-          {step.title}. {step.body}
-        </li>
-      ))}
-    </ol>
+    <div className="sr-only">
+      <h2>{HOW_TO_PLAY.heading}</h2>
+      <p>{HOW_TO_PLAY.intro}</p>
+      <ol>
+        {HOW_TO_PLAY.steps.map((step) => (
+          <li key={step.index}>
+            {step.title}. {step.body}
+          </li>
+        ))}
+      </ol>
+    </div>
   )
+}
+
+function StaticGameIntro() {
+  return (
+    <div className="bg-berkeley text-paper">
+      <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-24">
+        <SectionKicker
+          index={HOW_TO_PLAY.kicker.index}
+          title={HOW_TO_PLAY.kicker.title}
+          dark
+        />
+        <motion.h2
+          variants={reveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+          className="mt-10 font-display text-[clamp(38px,7vw,64px)] font-medium leading-[0.95] tracking-[-0.03em] text-paper"
+        >
+          {HOW_TO_PLAY.heading}
+        </motion.h2>
+        <motion.p
+          variants={reveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={VIEWPORT_ONCE}
+          className="mt-6 max-w-2xl font-display text-lg leading-relaxed text-mist"
+        >
+          {HOW_TO_PLAY.intro}
+        </motion.p>
+      </div>
+    </div>
+  )
+}
+
+function useDesktopScene() {
+  const [desktop, setDesktop] = useState(() =>
+    typeof window === "undefined"
+      ? false
+      : window.matchMedia("(min-width: 1024px)").matches,
+  )
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)")
+    const update = () => setDesktop(query.matches)
+    update()
+    query.addEventListener("change", update)
+    return () => query.removeEventListener("change", update)
+  }, [])
+
+  return desktop
 }
 
 // The four step cards as a static grid (small screens, reduced motion, or
@@ -541,66 +682,24 @@ function StepsGrid({ reduced }: { reduced: boolean }) {
 export default function HowToPlay() {
   const reduced = useReducedMotion() ?? false
   const webgl = useMemo(supportsWebgl, [])
-  const scrolly = !reduced && webgl
+  const desktop = useDesktopScene()
+  const scrolly = desktop && !reduced && webgl
 
   return (
-    <section id="game" aria-labelledby="game-heading" className="bg-paper">
-      <div className="mx-auto max-w-6xl px-6 pt-24 md:px-10 md:pt-32">
-        <SectionKicker
-          index={HOW_TO_PLAY.kicker.index}
-          title={HOW_TO_PLAY.kicker.title}
-        />
-
-        <motion.h2
-          id="game-heading"
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
-          className="mt-10 font-display text-[clamp(32px,4.5vw,64px)] font-medium leading-[0.95] tracking-[-0.02em] text-berkeley"
-        >
-          {HOW_TO_PLAY.heading}
-        </motion.h2>
-
-        <motion.p
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
-          className="mt-6 max-w-2xl font-display text-lg leading-relaxed text-berkeley/75"
-        >
-          {HOW_TO_PLAY.intro}
-        </motion.p>
-      </div>
-
-      {/* The stage escapes the container: full-bleed on desktop. */}
+    <section id="game" aria-label={HOW_TO_PLAY.heading} className="bg-paper">
       {scrolly ? (
         <>
-          <div className="hidden lg:block">
-            <ScrollySteps />
-            <StepsSrList />
-          </div>
-          <div className="mx-auto max-w-6xl px-6 md:px-10 lg:hidden">
+          <ScrollySteps />
+          <StepsSrList />
+        </>
+      ) : (
+        <>
+          <StaticGameIntro />
+          <div className="mx-auto max-w-6xl px-6 pb-24 md:px-10 md:pb-32">
             <StepsGrid reduced={reduced} />
           </div>
         </>
-      ) : (
-        <div className="mx-auto max-w-6xl px-6 md:px-10">
-          <StepsGrid reduced={reduced} />
-        </div>
       )}
-
-      <div className="mx-auto max-w-6xl px-6 pb-24 md:px-10 md:pb-32">
-        <motion.p
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={VIEWPORT_ONCE}
-          className="mt-16 text-center font-display text-xl font-medium leading-relaxed text-berkeley md:text-2xl"
-        >
-          {HOW_TO_PLAY.closer}
-        </motion.p>
-      </div>
     </section>
   )
 }
