@@ -16,12 +16,11 @@ export const NAV = {
 } as const
 
 export const HERO = {
-  eyebrow: "CANADIAN FISH / LITERATURE · EST. 2026 · UC BERKELEY",
   titleLines: ["Berkeley", "Canadian Fish Club"],
-  tagline: "Six hands. Forty-eight cards. Zero luck.",
-  sub: "Canadian Fish is the deduction game where every question you ask leaks information. The best table wins on inference alone. We're building Berkeley's home for it: weekly tables, tournaments, and the sharpest card players on campus.",
+  tagline: "A deduction card game for six players.",
+  sub: "Every question gives the table information. We're starting weekly Canadian Fish games at Berkeley, with beginner tables and tournaments.",
   ctaPrimary: { label: "Take a seat", id: "join" },
-  ctaSecondary: { label: "Learn the game", id: "game" },
+  ctaSecondary: { label: "Learn the game", id: "dive" },
   diveCue: "Scroll to dive",
   askLog: [
     "03:41.202  N → E   ASK 9♥ ......... HIT",
@@ -227,7 +226,7 @@ export const TEAM = {
 export const JOIN = {
   kicker: { index: "04", title: "JOIN" },
   heading: "Take a seat.",
-  sub: "The interest form takes forty seconds. The habit lasts a career.",
+  sub: "Leave your info and we'll send details for the first game night.",
   ctas: [
     { label: "Interest form", href: "#", variant: "solid" as const },
     { label: "Join the Discord", href: "#", variant: "ghost" as const },

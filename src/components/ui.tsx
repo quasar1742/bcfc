@@ -11,7 +11,8 @@ export const NAV_OFFSET = 88
 export function scrollToId(id: string) {
   const el = document.getElementById(id)
   if (!el) return
-  const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET
+  const offset = window.matchMedia("(max-width: 767px)").matches ? 72 : NAV_OFFSET
+  const top = el.getBoundingClientRect().top + window.scrollY - offset
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
   window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" })
 }
@@ -41,8 +42,9 @@ export function SectionKicker({
       initial="hidden"
       whileInView="visible"
       viewport={VIEWPORT_ONCE}
-      className="flex items-center gap-5"
+      className="grid w-full grid-cols-[minmax(18px,1fr)_auto_minmax(18px,1fr)] items-center gap-4 sm:gap-5"
     >
+      <div className={`h-px w-full ${dark ? "bg-gold/25" : "bg-berkeley/15"}`} />
       <p
         className={`shrink-0 font-display text-[12px] font-semibold uppercase tracking-[0.24em] ${
           dark ? "text-gold" : "text-gold-deep"
@@ -77,7 +79,7 @@ export function GoldButton({
       : "focus-visible:ring-berkeley focus-visible:ring-offset-paper ")
   const styles =
     variant === "solid"
-      ? "bg-gold font-semibold text-berkeley hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-10px_rgba(253,181,21,0.55)]"
+      ? "bg-gold font-semibold text-berkeley hover:-translate-y-0.5 hover:shadow-[0_10px_28px_-10px_rgba(231,184,83,0.48)]"
       : dark
         ? "border border-gold/50 text-gold hover:border-gold hover:bg-gold/10"
         : "border border-berkeley/30 text-berkeley hover:border-berkeley hover:bg-berkeley/5"

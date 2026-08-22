@@ -1,4 +1,5 @@
 import { CardBack, Medallion, PlayingCard } from "./components/cards"
+import BrandLogo from "./components/BrandLogo"
 
 // Renders at exactly 1200x630 for the og:image screenshot (visit /?og).
 export default function OGCard() {
@@ -20,15 +21,13 @@ export default function OGCard() {
 
       <div className="relative flex h-full items-center justify-between px-20">
         <div className="max-w-[640px]">
-          <p className="font-display text-[16px] font-semibold uppercase tracking-[0.3em] text-gold">
-            BERKELEY CANADIAN FISH CLUB · EST. 2026
-          </p>
+          <BrandLogo className="text-paper" />
           <h1 className="mt-7 font-display text-[84px] font-medium leading-[0.98] tracking-[-0.02em] text-paper">
-            Six hands.
+            Read the table.
             <br />
-            Forty-eight cards.
+            Find the cards.
             <br />
-            <span className="font-semibold text-gold">Zero luck.</span>
+            <span className="font-semibold text-gold">Take the book.</span>
           </h1>
           <p className="mt-8 font-mono text-[14px] uppercase tracking-[0.26em] text-mist">
             48 CARDS ◆ 8 BOOKS ◆ 6 SEATS ◆ 0 LUCK

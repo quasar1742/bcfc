@@ -5,14 +5,17 @@ import {
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
+  useSpring,
+  useTransform,
 } from "motion/react"
 import { NAV } from "../lib/content"
 import { EASE } from "../lib/anim"
 import { GoldButton, scrollToId } from "../components/ui"
 import { SuitGlyph } from "../components/cards"
+import BrandLogo, { ProgressFishMark } from "../components/BrandLogo"
 
 // ---------------------------------------------------------------------------
-// Nav — fixed top chrome. Gold scroll-progress hairline, BCFC monogram,
+// Nav — fixed top chrome. Swimming-fish scroll progress, BCFC monogram,
 // mono anchor links + gold JOIN on desktop, full-screen navy overlay on
 // mobile. Transparent at rest; paper glass once the page moves.
 // ---------------------------------------------------------------------------
@@ -22,6 +25,33 @@ const OVERLAY_SUITS = ["spades", "hearts", "clubs", "diamonds"] as const
 export default function Nav() {
   const reducedMotion = useReducedMotion()
   const { scrollY, scrollYProgress } = useScroll()
+  const swimmingProgress = useSpring(scrollYProgress, {
+    stiffness: 150,
+    damping: 28,
+    mass: 0.32,
+    restDelta: 0.0001,
+  })
+  const fishTravelProgress = reducedMotion ? scrollYProgress : swimmingProgress
+  const fishLeft = useTransform(
+    fishTravelProgress,
+    [0, 1],
+    ["0%", "100%"],
+  )
+  const fishOpacity = useTransform(
+    fishTravelProgress,
+    [0, 0.065, 0.105],
+    [0, 0, 1],
+  )
+  const fishCurrentY = useTransform(
+    fishTravelProgress,
+    [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
+    [0, -1.25, 0, 1.25, 0, -1.25, 0, 1.25, 0],
+  )
+  const fishCurrentPitch = useTransform(
+    fishTravelProgress,
+    [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
+    [-1.5, 0, 1.5, 0, -1.5, 0, 1.5, 0, -1.5],
+  )
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
@@ -102,12 +132,61 @@ export default function Nav() {
 
   return (
     <>
-      {/* ---- Gold scroll-progress hairline ---- */}
+      {/* ---- A small fish follows a living current across the full page ---- */}
       <motion.div
-        style={{ scaleX: scrollYProgress }}
-        className="site-chrome fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-gold"
+        className="scroll-fish-progress pointer-events-none fixed inset-x-0 top-0 z-[60] h-6 overflow-hidden"
         aria-hidden="true"
-      />
+        style={{ opacity: fishOpacity }}
+      >
+        <svg
+          className="scroll-stream-water absolute inset-x-0 top-0.5 h-5 w-full"
+          viewBox="0 0 1000 20"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="scroll-stream-gradient" x1="0" x2="1">
+              <stop offset="0" stopColor="#73b9b3" stopOpacity="0" />
+              <stop offset="0.08" stopColor="#73b9b3" stopOpacity="0.16" />
+              <stop offset="0.5" stopColor="#8bc8c2" stopOpacity="0.25" />
+              <stop offset="0.92" stopColor="#73b9b3" stopOpacity="0.16" />
+              <stop offset="1" stopColor="#73b9b3" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            className="scroll-stream-ribbon"
+            vectorEffect="non-scaling-stroke"
+            d="M-20 10 C30 7.5 70 7.5 120 10 S210 12.5 260 10 S350 7.5 400 10 S490 12.5 540 10 S630 7.5 680 10 S770 12.5 820 10 S930 7.5 1020 10"
+          />
+          <path
+            className="scroll-stream-current scroll-stream-current--near"
+            vectorEffect="non-scaling-stroke"
+            d="M-20 9 C30 6.5 70 6.5 120 9 S210 11.5 260 9 S350 6.5 400 9 S490 11.5 540 9 S630 6.5 680 9 S770 11.5 820 9 S930 6.5 1020 9"
+          />
+          <path
+            className="scroll-stream-current scroll-stream-current--far"
+            vectorEffect="non-scaling-stroke"
+            d="M-20 12 C30 9.5 70 9.5 120 12 S210 14.5 260 12 S350 9.5 400 12 S490 14.5 540 12 S630 9.5 680 12 S770 14.5 820 12 S930 9.5 1020 12"
+          />
+        </svg>
+
+        <div className="absolute top-0.5 right-10 left-1 h-5">
+          <motion.div
+            className="scroll-fish absolute top-0 flex h-5 w-8 items-center justify-center"
+            style={{
+              left: fishLeft,
+              y: reducedMotion ? 0 : fishCurrentY,
+              rotate: reducedMotion ? 0 : fishCurrentPitch,
+            }}
+          >
+            <span className="scroll-fish-wake" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+            <ProgressFishMark className="scroll-fish-mark h-4 w-8 text-gold" />
+          </motion.div>
+        </div>
+      </motion.div>
 
       {/* ---- Fixed nav bar ---- */}
       <motion.nav
@@ -117,7 +196,7 @@ export default function Nav() {
         transition={{ duration: 0.6, ease: EASE, delay: 0.05 }}
         className={`site-chrome fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
           scrolled
-            ? "border-berkeley/10 bg-paper/90 backdrop-blur-md"
+            ? "border-mist/10 bg-berkeley-deep/88 backdrop-blur-md"
             : "border-transparent bg-transparent"
         }`}
       >
@@ -129,23 +208,11 @@ export default function Nav() {
             aria-label="Berkeley Canadian Fish Club, back to top"
             className={`group flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               scrolled
-                ? "focus-visible:ring-berkeley focus-visible:ring-offset-paper"
+                ? "focus-visible:ring-gold focus-visible:ring-offset-berkeley-deep"
                 : "focus-visible:ring-gold focus-visible:ring-offset-berkeley"
             }`}
           >
-            <span
-              className={`font-display text-xl font-semibold tracking-[-0.01em] transition-colors duration-300 ${
-                scrolled ? "text-berkeley" : "text-paper"
-              }`}
-            >
-              {NAV.monogram}
-            </span>
-            <SuitGlyph
-              suit="spades"
-              size={14}
-              color="var(--color-gold)"
-              className="translate-y-px transition-transform duration-200 group-hover:-translate-y-0.5"
-            />
+            <BrandLogo className="text-paper" />
           </button>
 
           {/* Desktop links */}
@@ -157,7 +224,7 @@ export default function Nav() {
                 onClick={() => scrollToId(link.id)}
                 className={`rounded-sm py-1 font-display text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                   scrolled
-                    ? "text-berkeley/70 hover:text-berkeley focus-visible:ring-berkeley"
+                    ? "text-paper/70 hover:text-paper focus-visible:ring-gold"
                     : "text-paper/80 hover:text-paper focus-visible:ring-gold"
                 }`}
               >
@@ -167,7 +234,7 @@ export default function Nav() {
             <GoldButton
               targetId={NAV.cta.id}
               variant="solid"
-              dark={!scrolled}
+              dark
               className="px-5! py-2!"
             >
               {NAV.cta.label}
@@ -184,7 +251,7 @@ export default function Nav() {
             aria-controls="bcfc-mobile-menu"
             className={`rounded-sm py-1 font-display text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 md:hidden ${
               scrolled
-                ? "text-berkeley hover:text-gold-deep focus-visible:ring-berkeley"
+                ? "text-paper hover:text-gold focus-visible:ring-gold"
                 : "text-paper hover:text-gold focus-visible:ring-gold"
             }`}
           >
@@ -210,17 +277,7 @@ export default function Nav() {
           >
             {/* Overlay chrome row */}
             <div className="flex h-[72px] shrink-0 items-center justify-between px-6">
-              <span className="flex items-center gap-2">
-                <span className="font-display text-xl font-semibold tracking-[-0.01em] text-paper">
-                  {NAV.monogram}
-                </span>
-                <SuitGlyph
-                  suit="spades"
-                  size={14}
-                  color="var(--color-gold)"
-                  className="translate-y-px"
-                />
-              </span>
+              <BrandLogo className="text-paper" />
               <button
                 ref={closeButtonRef}
                 type="button"
@@ -300,9 +357,7 @@ export default function Nav() {
             >
               <div className="h-px w-full bg-gold/25" aria-hidden="true" />
               <div className="mt-5 flex items-center justify-between">
-                <span className="font-display text-[11px] font-semibold uppercase tracking-[0.26em] text-mist/70">
-                  {NAV.monogram}
-                </span>
+                <BrandLogo className="text-mist/70" markOnly />
                 <span className="flex items-center gap-3" aria-hidden="true">
                   {OVERLAY_SUITS.map((suit) => (
                     <SuitGlyph

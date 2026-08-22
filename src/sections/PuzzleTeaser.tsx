@@ -73,7 +73,7 @@ export default function PuzzleTeaser() {
               >
                 <CardBack
                   size={170}
-                  className="drop-shadow-[0_18px_32px_rgba(0,29,56,0.22)]"
+                  className="drop-shadow-[0_18px_32px_rgba(7,31,42,0.22)]"
                 />
               </motion.div>
             </div>

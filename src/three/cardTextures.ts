@@ -8,11 +8,11 @@ import type { Suit } from "../lib/content"
 // corner indices.
 // ---------------------------------------------------------------------------
 
-export const NAVY = "#003262"
-export const NAVY_DEEP = "#00223f"
-export const GOLD = "#fdb515"
-export const CREAM = "#fdfcf8"
-export const MAPLE = "#a8322a"
+export const NAVY = "#123747"
+export const NAVY_DEEP = "#071f2a"
+export const GOLD = "#e7b853"
+export const CREAM = "#faf6ea"
+export const MAPLE = "#b8523f"
 
 export const TEX_W = 512
 export const TEX_H = 717
@@ -176,7 +176,7 @@ export function drawFace(
 
   const color = suit === "hearts" || suit === "diamonds" ? MAPLE : NAVY
 
-  ctx.strokeStyle = "#8f6400"
+  ctx.strokeStyle = "#8a5b13"
   ctx.globalAlpha = 0.5
   ctx.lineWidth = 2
   roundedRectPath(ctx, 22, 22, TEX_W - 44, TEX_H - 44, 24)
@@ -218,7 +218,7 @@ export function drawFace(
   drawIndex(false)
   drawIndex(true)
 
-  ctx.strokeStyle = "#8f6400"
+  ctx.strokeStyle = "#8a5b13"
   ctx.globalAlpha = 0.1
   ctx.lineWidth = 1.2
   for (let i = 0; i < 8; i++) {
@@ -254,7 +254,7 @@ export function drawFace(
     ctx.lineWidth = 5
     roundedRectPath(ctx, -w / 2, -44, w, 72, 10)
     ctx.stroke()
-    ctx.fillStyle = "#8f6400"
+    ctx.fillStyle = "#8a5b13"
     ctx.fillText(stamp, 0, 10)
     ctx.restore()
   }

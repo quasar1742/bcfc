@@ -71,18 +71,6 @@ export default function Hero() {
         className="ocean-hero-content"
         style={{ y: copyY, opacity: copyOpacity }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: EASE, delay: 0.08 }}
-          className="ocean-eyebrow"
-        >
-          <span className="ocean-sonar" aria-hidden="true">
-            <span />
-          </span>
-          {HERO.eyebrow}
-        </motion.div>
-
         <h1 id="hero-title" className="ocean-title">
           {HERO.titleLines.map((line, index) => (
             <span key={line} className="block overflow-hidden pb-[0.04em]">
@@ -127,7 +115,7 @@ export default function Hero() {
           className="ocean-actions"
         >
           <GoldButton targetId={HERO.ctaPrimary.id} variant="solid" dark>
-            {HERO.ctaPrimary.label} <span aria-hidden="true">→</span>
+            {HERO.ctaPrimary.label}
           </GoldButton>
           <GoldButton targetId={HERO.ctaSecondary.id} variant="ghost" dark>
             {HERO.ctaSecondary.label}
@@ -135,15 +123,17 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
+      <div className="ocean-hero-handoff" aria-hidden="true" />
+
       <motion.a
-        href="#game"
+        href="#dive"
         className="ocean-dive-cue"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.25 }}
         onClick={(event) => {
           event.preventDefault()
-          document.getElementById("game")?.scrollIntoView({
+          document.getElementById("dive")?.scrollIntoView({
             behavior: reducedMotion ? "auto" : "smooth",
           })
         }}
