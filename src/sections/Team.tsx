@@ -100,9 +100,9 @@ export default function Team() {
     <section
       id="table"
       aria-labelledby="table-heading"
-      className="relative overflow-hidden bg-berkeley py-24 text-paper md:py-32"
+      className="relative overflow-hidden bg-berkeley-deep/38 py-20 text-paper backdrop-blur-[1px] sm:py-24 md:py-32"
     >
-      <div className="mx-auto max-w-6xl px-6 md:px-10">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6 md:px-10">
         <SectionKicker index={TEAM.kicker.index} title={TEAM.kicker.title} dark />
 
         <motion.div
@@ -133,7 +133,7 @@ export default function Team() {
         initial="hidden"
         whileInView="visible"
         viewport={VIEWPORT_ONCE}
-        className="mx-auto mt-16 grid max-w-6xl grid-cols-2 justify-items-center gap-4 px-6 sm:grid-cols-3 sm:gap-6 md:px-10 lg:grid-cols-6 lg:gap-5"
+        className="mx-auto mt-12 grid max-w-6xl grid-cols-2 justify-items-center gap-3 px-5 sm:mt-16 sm:grid-cols-3 sm:gap-6 sm:px-6 md:px-10 lg:grid-cols-6 lg:gap-5"
       >
         {TEAM.cards.map((card) => (
           <motion.div key={card.role} variants={staggerChild} className="flex w-full justify-center">

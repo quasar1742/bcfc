@@ -422,6 +422,7 @@ function ScrollySteps() {
   const sceneProgress = useTransform(smoothProgress, [0.12, 0.86], [0, 1])
   const introOpacity = useTransform(smoothProgress, [0, 0.055, 0.135], [1, 1, 0])
   const introY = useTransform(smoothProgress, [0, 0.135], [0, -34])
+  const gameAtmosOpacity = useTransform(smoothProgress, [0, 0.06], [0, 1])
   const sceneVisualOpacity = useTransform(smoothProgress, [0.135, 0.17], [0, 1])
   const stepCopyOpacity = useTransform(
     smoothProgress,
@@ -462,13 +463,14 @@ function ScrollySteps() {
     <div ref={ref} className="relative h-[600vh]" aria-hidden="true">
       {/* Full-bleed immersive stage: the whole viewport goes navy while
           pinned; the 3D scene fills it and the step text rides on top. */}
-      <div className="sticky top-0 h-screen overflow-hidden bg-berkeley">
-        <div
+      <div className="sticky top-0 h-screen overflow-hidden bg-[#071f2a]">
+        <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
           style={{
+            opacity: gameAtmosOpacity,
             background:
-              "radial-gradient(90% 80% at 72% 10%, rgba(253,181,21,0.09) 0%, rgba(0,50,98,0) 46%), radial-gradient(120% 100% at 25% 110%, rgba(0,29,56,0.9) 0%, rgba(0,50,98,0) 55%)",
+              "radial-gradient(90% 80% at 72% 10%, rgba(231,184,83,0.1) 0%, rgba(18,55,71,0) 46%), radial-gradient(120% 100% at 25% 110%, rgba(7,31,42,0.92) 0%, rgba(18,55,71,0) 55%)",
           }}
         />
         <motion.div
@@ -500,7 +502,7 @@ function ScrollySteps() {
                 {HOW_TO_PLAY.intro}
               </p>
               <p className="mt-8 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-gold/80">
-                Scroll to deal the first hand ↓
+                Scroll to deal the first hand
               </p>
             </div>
           </div>
@@ -588,8 +590,8 @@ function StepsSrList() {
 
 function StaticGameIntro() {
   return (
-    <div className="bg-berkeley text-paper">
-      <div className="mx-auto max-w-6xl px-6 py-20 md:px-10 md:py-24">
+    <div className="bg-transparent text-paper">
+      <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 sm:py-20 md:px-10 md:py-24">
         <SectionKicker
           index={HOW_TO_PLAY.kicker.index}
           title={HOW_TO_PLAY.kicker.title}
@@ -600,7 +602,7 @@ function StaticGameIntro() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mt-10 font-display text-[clamp(38px,7vw,64px)] font-medium leading-[0.95] tracking-[-0.03em] text-paper"
+          className="mt-8 font-display text-[clamp(36px,7vw,64px)] font-medium leading-[0.98] tracking-[-0.03em] text-paper sm:mt-10 sm:leading-[0.95]"
         >
           {HOW_TO_PLAY.heading}
         </motion.h2>
@@ -645,7 +647,7 @@ function StepsGrid({ reduced }: { reduced: boolean }) {
       initial="hidden"
       whileInView="visible"
       viewport={VIEWPORT_ONCE}
-      className="mt-14 grid gap-6 md:grid-cols-2"
+      className="mt-10 grid gap-5 sm:mt-14 sm:gap-6 md:grid-cols-2"
     >
       {HOW_TO_PLAY.steps.map((step) => {
         const Diagram = DIAGRAMS[step.diagram]
@@ -653,7 +655,7 @@ function StepsGrid({ reduced }: { reduced: boolean }) {
           <motion.article
             key={step.index}
             variants={staggerChild}
-            className="flex flex-col rounded-lg border border-berkeley/10 bg-card p-7 transition-colors duration-200 hover:border-gold-deep/40 md:p-8"
+            className="flex min-w-0 w-full flex-col rounded-lg border border-berkeley/10 bg-card p-5 transition-colors duration-200 hover:border-gold-deep/40 sm:p-7 md:p-8"
           >
             <p className="font-display text-[12px] font-semibold uppercase tracking-[0.2em] text-gold-deep">
               {step.index} / {step.title}
@@ -666,7 +668,7 @@ function StepsGrid({ reduced }: { reduced: boolean }) {
             </p>
             <div className="mt-auto pt-6">
               <div
-                className="flex h-[150px] items-center justify-center overflow-hidden rounded-lg bg-paper-soft"
+                className="flex h-[150px] min-w-0 items-center justify-center overflow-hidden rounded-lg bg-paper-soft"
                 aria-hidden="true"
               >
                 <Diagram reduced={reduced} />
@@ -686,7 +688,7 @@ export default function HowToPlay() {
   const scrolly = desktop && !reduced && webgl
 
   return (
-    <section id="game" aria-label={HOW_TO_PLAY.heading} className="bg-paper">
+    <section id="game" aria-label={HOW_TO_PLAY.heading} className="bg-transparent">
       {scrolly ? (
         <>
           <ScrollySteps />
@@ -695,7 +697,7 @@ export default function HowToPlay() {
       ) : (
         <>
           <StaticGameIntro />
-          <div className="mx-auto max-w-6xl px-6 pb-24 md:px-10 md:pb-32">
+          <div className="mx-auto max-w-6xl px-5 pb-20 sm:px-6 sm:pb-24 md:px-10 md:pb-32">
             <StepsGrid reduced={reduced} />
           </div>
         </>

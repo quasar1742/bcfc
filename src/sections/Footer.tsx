@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "motion/react"
 import { FOOTER, NAV } from "../lib/content"
 import { reveal, revealStagger, staggerChild, VIEWPORT_ONCE } from "../lib/anim"
 import { scrollToId } from "../components/ui"
-import { SuitGlyph } from "../components/cards"
+import BrandLogo from "../components/BrandLogo"
 
 // ---------------------------------------------------------------------------
 // Footer — berkeley-deep close. Monogram, index, colophon, fine print; a lone
@@ -66,26 +66,25 @@ export default function Footer() {
   return (
     <footer
       aria-labelledby="footer-heading"
-      className="relative overflow-hidden border-t border-gold/20 bg-berkeley-deep py-16 text-paper md:py-20"
+      className="ocean-footer relative overflow-hidden border-t border-gold/20 bg-[#04151d] py-14 text-paper sm:py-16 md:py-20"
     >
       <SwimmingFish />
 
-      <div className="relative mx-auto max-w-6xl px-6 md:px-10">
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-6 md:px-10">
         <motion.div
           variants={revealStagger}
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]"
+          className="grid gap-10 sm:gap-12 md:grid-cols-[1.4fr_1fr_1fr]"
         >
           {/* ---- Monogram ---- */}
           <motion.div variants={staggerChild}>
             <h2
               id="footer-heading"
-              className="flex items-center gap-2.5 font-display text-2xl font-semibold tracking-[-0.02em] text-paper"
+              className="text-paper"
             >
-              {NAV.monogram}
-              <SuitGlyph suit="spades" size={14} color="var(--color-gold)" />
+              <BrandLogo />
             </h2>
             <p className="mt-4 max-w-xs font-display text-[13px] leading-relaxed tracking-[0.01em] text-mist">
               {FOOTER.blurb}

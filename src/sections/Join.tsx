@@ -34,8 +34,8 @@ export default function Join() {
   const [value, setValue] = useState<string>("")
 
   return (
-    <section id="join" aria-labelledby="join-heading" className="bg-paper">
-      <div className="mx-auto max-w-6xl px-6 py-24 md:px-10 md:py-32">
+    <section id="join" aria-labelledby="join-heading" className="bg-transparent px-4 py-14 sm:px-6 sm:py-20 md:px-10 md:py-24">
+      <div className="mx-auto max-w-6xl rounded-[24px] border border-gold/15 bg-paper/95 px-5 py-16 shadow-[0_28px_90px_-42px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-8 sm:py-20 md:px-12 md:py-24">
         <SectionKicker index={JOIN.kicker.index} title={JOIN.kicker.title} />
 
         {/* ---- The invitation ---- */}
@@ -44,31 +44,30 @@ export default function Join() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mt-12 md:mt-14"
+          className="mt-10 sm:mt-12 md:mt-14"
         >
           <motion.h2
             variants={staggerChild}
             id="join-heading"
-            className="font-display text-[clamp(48px,7vw,96px)] font-medium leading-[0.95] tracking-[-0.03em] text-berkeley"
+            className="font-display text-[clamp(42px,7vw,96px)] font-medium leading-[0.98] tracking-[-0.03em] text-berkeley sm:leading-[0.95]"
           >
             {JOIN.heading}
           </motion.h2>
 
           <motion.p
             variants={staggerChild}
-            className="mt-6 max-w-2xl font-display text-xl leading-relaxed text-berkeley/75"
+            className="mt-5 max-w-2xl font-display text-lg leading-relaxed text-berkeley/75 sm:mt-6 sm:text-xl"
           >
             {JOIN.sub}
           </motion.p>
 
           <motion.div
             variants={staggerChild}
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-8 flex flex-col items-stretch gap-3 min-[400px]:flex-row min-[400px]:flex-wrap min-[400px]:items-center min-[400px]:gap-4 sm:mt-10"
           >
             {JOIN.ctas.map((cta) => (
               <GoldButton key={cta.label} href={cta.href} variant={cta.variant}>
                 {cta.label}
-                {cta.variant === "solid" && <span aria-hidden="true">→</span>}
               </GoldButton>
             ))}
           </motion.div>
@@ -80,7 +79,7 @@ export default function Join() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mt-20 max-w-2xl"
+          className="mt-16 max-w-2xl sm:mt-20"
         >
           <Accordion.Root
             type="single"

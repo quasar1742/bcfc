@@ -34,7 +34,7 @@ export default function TheEdge() {
       ref={sectionRef}
       id="edge"
       aria-labelledby="edge-heading"
-      className="relative overflow-hidden bg-berkeley text-paper"
+      className="relative overflow-hidden bg-berkeley-deep/28 text-paper"
     >
       {/* Faint foil medallion, drifting slower than the scroll. */}
       <motion.div
@@ -45,7 +45,7 @@ export default function TheEdge() {
         <Medallion size={700} ring={false} />
       </motion.div>
 
-      <div className="relative mx-auto max-w-6xl px-6 py-24 md:px-10 md:py-32">
+      <div className="relative mx-auto max-w-6xl px-5 py-20 sm:px-6 sm:py-24 md:px-10 md:py-32">
         <SectionKicker
           index={THE_EDGE.kicker.index}
           title={THE_EDGE.kicker.title}
@@ -75,7 +75,7 @@ export default function TheEdge() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mt-16 grid gap-x-12 gap-y-12 md:grid-cols-2"
+          className="edge-theses mt-12 grid sm:mt-16 md:grid-cols-2"
         >
           {THE_EDGE.theses.map((thesis, i) => (
             <motion.div key={thesis.kicker} variants={staggerChild}>
@@ -98,7 +98,7 @@ export default function TheEdge() {
           initial="hidden"
           whileInView="visible"
           viewport={VIEWPORT_ONCE}
-          className="mt-24 max-w-3xl"
+          className="mt-16 max-w-3xl sm:mt-24"
         >
           <blockquote className="mt-8 font-display text-[clamp(26px,3.4vw,44px)] font-medium leading-tight tracking-[-0.01em] text-gold">
             {THE_EDGE.pullQuote}

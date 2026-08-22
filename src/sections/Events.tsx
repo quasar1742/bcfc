@@ -41,7 +41,7 @@ function CountdownCard() {
       initial="hidden"
       whileInView="visible"
       viewport={VIEWPORT_ONCE}
-      className="rounded-lg bg-berkeley p-8 text-paper shadow-[0_20px_50px_-30px_rgba(0,29,56,0.3)]"
+      className="rounded-lg bg-berkeley p-8 text-paper shadow-[0_20px_50px_-30px_rgba(7,31,42,0.3)]"
     >
       <p className="mt-6 font-display text-[12px] font-semibold uppercase tracking-[0.24em] text-gold">
         {EVENTS.countdownLabel}
