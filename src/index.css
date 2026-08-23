@@ -94,7 +94,7 @@
 
   /* QA mode: force motion-controlled inline opacity to final visibility so
      screenshots from occluded windows show the finished layout. */
-  .qa-static [style*="opacity"]:not(.game-intro-layer):not(.game-step-layer):not(.game-scene-layer):not(.game-counter-layer) {
+  .qa-static [style*="opacity"]:not(.scroll-fish-progress):not(.game-step-layer):not(.game-counter-layer) {
     opacity: 1 !important;
   }
 
@@ -114,8 +114,20 @@
     pointer-events: none;
   }
 
+  .join-immersive nav.site-chrome {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
   .scroll-fish-progress {
+    opacity: 0 !important;
     filter: drop-shadow(0 4px 10px rgba(2, 15, 21, 0.34));
+    transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .stage-immersive .scroll-fish-progress,
+  .dive-immersive .scroll-fish-progress {
+    opacity: 1 !important;
   }
 
   .scroll-stream-water {

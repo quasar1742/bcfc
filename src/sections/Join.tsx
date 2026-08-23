@@ -1,5 +1,13 @@
-import { useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
+import { useEffect, useRef, useState } from "react"
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "motion/react"
 import { Accordion } from "radix-ui"
 import { JOIN } from "../lib/content"
 import { EASE, revealStagger, staggerChild, VIEWPORT_ONCE } from "../lib/anim"
@@ -32,10 +40,62 @@ function PlusGlyph({ open }: { open: boolean }) {
 
 export default function Join() {
   const [value, setValue] = useState<string>("")
+  const ref = useRef<HTMLElement>(null)
+  const reduced = useReducedMotion() ?? false
+  const { scrollYProgress: entryProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "start start"],
+  })
+  const { scrollYProgress: sectionProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end end"],
+  })
+  const smoothEntry = useSpring(entryProgress, {
+    stiffness: 120,
+    damping: 28,
+    mass: 0.7,
+    restDelta: 0.0001,
+  })
+  const shellScaleX = useTransform(smoothEntry, [0, 0.92], [0.94, 1])
+  const shellY = useTransform(smoothEntry, [0, 0.92], [48, 0])
+  const shellRadius = useTransform(smoothEntry, [0, 0.92], [24, 0])
+  const shellBorder = useTransform(
+    smoothEntry,
+    [0, 0.92],
+    ["rgba(231, 184, 83, 0.15)", "rgba(231, 184, 83, 0)"],
+  )
+
+  useMotionValueEvent(sectionProgress, "change", (progress) => {
+    const immersive =
+      progress > 0.002 && progress < 0.998 && ref.current?.offsetParent != null
+    document.documentElement.classList.toggle("join-immersive", immersive)
+  })
+  useEffect(
+    () => () => document.documentElement.classList.remove("join-immersive"),
+    [],
+  )
 
   return (
-    <section id="join" aria-labelledby="join-heading" className="bg-transparent px-4 py-14 sm:px-6 sm:py-20 md:px-10 md:py-24">
-      <div className="mx-auto max-w-6xl rounded-[24px] border border-gold/15 bg-paper/95 px-5 py-16 shadow-[0_28px_90px_-42px_rgba(0,0,0,0.65)] backdrop-blur-md sm:px-8 sm:py-20 md:px-12 md:py-24">
+    <section
+      ref={ref}
+      id="join"
+      aria-labelledby="join-heading"
+      className="relative isolate min-h-[100svh] overflow-hidden bg-transparent"
+    >
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 origin-top border bg-paper/95 shadow-[0_28px_90px_-42px_rgba(0,0,0,0.65)] backdrop-blur-md will-change-transform"
+        style={reduced
+          ? { scaleX: 1, y: 0, borderRadius: 0, borderColor: "transparent" }
+          : {
+              scaleX: shellScaleX,
+              y: shellY,
+              borderRadius: shellRadius,
+              borderColor: shellBorder,
+            }
+        }
+      />
+      <div className="relative z-10 mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20 md:px-12 md:py-24">
         <SectionKicker index={JOIN.kicker.index} title={JOIN.kicker.title} />
 
         {/* ---- The invitation ---- */}

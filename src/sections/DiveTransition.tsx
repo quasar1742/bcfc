@@ -154,7 +154,7 @@ export default function DiveTransition() {
     setMeters(Math.round(value * 32))
     document.documentElement.classList.toggle(
       "dive-immersive",
-      value > 0.025 && value < 0.94,
+      value > 0.025 && value < 0.999,
     )
   })
   useEffect(
@@ -170,13 +170,13 @@ export default function DiveTransition() {
   const gaugeScale = useTransform(scrollYProgress, [0, 1], [0, 1])
   const cueOpacity = useTransform(
     scrollYProgress,
-    [0.03, 0.12, 0.8, 0.93],
-    [0, 1, 1, 0],
+    [0.03, 0.12],
+    [0, 1],
   )
   const cueY = useTransform(
     scrollYProgress,
-    [0.03, 0.16, 0.8, 0.93],
-    [34, 0, 0, -34],
+    [0.03, 0.16],
+    [34, 0],
   )
   // The canvas is already overscanned above the viewport before it fades in. This
   // lets the water column become fully opaque before the hero's reef ends, so the

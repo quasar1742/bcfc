@@ -34,7 +34,9 @@ const lerp = THREE.MathUtils.lerp
 
 function presence(p: number, index: number) {
   const tRaw = (p - index * L) / L
-  const enter = smooth(clamp01(tRaw / 0.14))
+  // The dive hands directly to the first scene, so its stacked deck is fully
+  // present at progress zero. Later scenes retain their crossfade entrances.
+  const enter = index === 0 ? 1 : smooth(clamp01(tRaw / 0.14))
   const exit = index === N - 1 ? 0 : smooth(clamp01((tRaw - 0.88) / 0.12))
   const t = clamp01((tRaw - 0.14) / 0.74)
   return {
