@@ -79,31 +79,31 @@ export const HOW_TO_PLAY = {
 } as const
 
 export const THE_EDGE = {
-  kicker: { index: "02", title: "THE EDGE" },
-  heading: "Why card people make good quants.",
+  kicker: { index: "02", title: "WHAT TO EXPECT" },
+  heading: "Come learn Canadian Fish.",
   intro:
-    "Nobody at a trading desk will ask about your GPA at the table. They will notice, within three hands, whether you can hold a posterior in your head.",
+    "Canadian Fish is easiest to learn by playing. We will start with a short rules explanation, play a practice hand together, and then form tables for full games.",
   theses: [
     {
-      kicker: "BAYESIAN BY REFLEX",
-      body: "Every ask updates the table. Track forty-eight cards across six hands for one evening, and priors stop being a lecture topic and start being a reflex.",
+      kicker: "BEGINNERS ARE WELCOME",
+      body: "You do not need to know the rules before coming. We will explain how asking, collecting books, and declaring work before the first game begins.",
     },
     {
-      kicker: "SIGNAL DESIGN",
-      body: "You can't talk to your teammates. You can only ask questions the whole table hears. Being legible to your team while staying opaque to your opponents is a full course in information design.",
+      kicker: "SIX PLAYERS PER TABLE",
+      body: "Canadian Fish is a team card game for six people. Once everyone understands the basics, we will divide into tables and rotate seats as needed.",
     },
     {
-      kicker: "THE PRICE OF CONVICTION",
-      body: "Declare at eighty percent, or wait a round and leak more? Every declare is a priced bet on your own inference. You'll learn what conviction costs, and that hesitation usually costs more.",
+      kicker: "NOTHING TO BRING",
+      body: "We will provide the cards and teach the game. Just bring yourself and enough time to stay for a practice hand or a full game.",
     },
     {
-      kicker: "MEMORY UNDER FIRE",
-      body: "No notes. No apps. Six hands, every ask, every miss, every implication, all carried in your head while someone tries to read your face. It compounds.",
+      kicker: "A NEW CLUB",
+      body: "BCFC is still getting started. Meeting times, rooms, and future events will be shared once they are confirmed, and early members can help shape how the club runs.",
     },
   ],
   pullQuote:
-    "Poker taught a generation to price risk. Fish teaches you to price information.",
-  pullQuoteAttribution: "OVERHEARD AT TABLE ONE (PROBABLY)",
+    "No experience is required. We will teach the rules before we start.",
+  pullQuoteAttribution: "NEW PLAYERS ARE WELCOME",
 } as const
 
 export const PUZZLE_TEASER = {
@@ -172,61 +172,61 @@ export const EVENTS = {
 } as const
 
 export const TEAM = {
-  kicker: { index: "03", title: "THE FOUNDING TABLE" },
-  heading: "Six founding seats. Most of them still warm.",
-  sub: "Flip a card, claim a chair. Officer applications open at the first table.",
+  kicker: { index: "03", title: "GET INVOLVED" },
+  heading: "Help us build the club.",
+  sub: "We are looking for students who want to play regularly and people who can help organize meetings. Flip the cards to see where help is needed.",
   cards: [
     {
       rank: "A",
       suit: "spades" as Suit,
-      role: "PRESIDENT",
-      note: "Declares first. Answers for it.",
+      role: "CLUB ORGANIZER",
+      note: "Coordinates BCFC and plans the club's first semester.",
       open: false,
     },
     {
       rank: "K",
       suit: "spades" as Suit,
-      role: "VICE PRESIDENT",
-      note: "Runs the room when the room runs long.",
+      role: "MEETING PLANNER",
+      note: "Helps schedule meetings, reserve rooms, and set up tables.",
       open: true,
     },
     {
       rank: "Q",
       suit: "diamonds" as Suit,
       role: "TREASURER",
-      note: "Guards a buy-in of exactly $0.",
+      note: "Helps manage club expenses, supplies, and reimbursements.",
       open: true,
     },
     {
       rank: "J",
       suit: "clubs" as Suit,
-      role: "TOURNAMENT DIRECTOR",
-      note: "Seeds the bracket. Suffers the appeals.",
+      role: "RULES TEACHER",
+      note: "Helps introduce new players and answer questions during games.",
       open: true,
     },
     {
       rank: "10",
       suit: "hearts" as Suit,
-      role: "SOCIAL CHAIR",
-      note: "Maple syrup budget: under review.",
+      role: "OUTREACH",
+      note: "Shares meeting information and welcomes interested students.",
       open: true,
     },
     {
       rank: "9",
       suit: "diamonds" as Suit,
-      role: "YOU?",
-      note: "Open seat. Ask us for it — that's the whole game.",
+      role: "MEMBER VOLUNTEER",
+      note: "Helps with setup, teaching, or events whenever available.",
       open: true,
     },
   ],
-  openLabel: "OPEN SEAT · APPLY AT TABLE ONE",
-  claimedLabel: "SEAT CLAIMED",
+  openLabel: "LOOKING FOR HELP",
+  claimedLabel: "CURRENT ROLE",
 } as const
 
 export const JOIN = {
-  kicker: { index: "04", title: "JOIN" },
-  heading: "Take a seat.",
-  sub: "Leave your info and we'll send details for the first game night.",
+  kicker: { index: "04", title: "STAY UPDATED" },
+  heading: "Get meeting updates.",
+  sub: "Leave your contact information and we will email you when the first learn-to-play session has a confirmed date and room.",
   form: {
     nameLabel: "Name",
     namePlaceholder: "Your name",
@@ -234,19 +234,19 @@ export const JOIN = {
     emailPlaceholder: "you@berkeley.edu",
     interestLabel: "I'm interested in",
     interestOptions: [
-      "Learning the game",
-      "Weekly open tables",
-      "Tournaments",
-      "Helping run the club",
-      "Something else",
+      "Learning Canadian Fish",
+      "Attending regular games",
+      "Helping organize the club",
+      "Teaching new players",
+      "Other",
     ],
     messageLabel: "Message",
-    messagePlaceholder: "Anything we should know?",
-    submit: "Send interest",
+    messagePlaceholder: "Tell us what you are interested in or ask a question.",
+    submit: "Sign up for updates",
     sending: "Sending…",
-    success: "You're on the list. We'll be in touch with game-night details.",
-    error: "That didn't go through. Try again or email us directly.",
-    alternatives: "Or reach us directly",
+    success: "Thanks. We will email you when the next meeting is confirmed.",
+    error: "We could not submit the form. Please try again or email us directly.",
+    alternatives: "Questions? Contact us directly",
   },
   ctas: [
     { label: "Interest form", href: "#", variant: "solid" as const },
@@ -259,23 +259,23 @@ export const JOIN = {
   ],
   faq: [
     {
-      q: "Do I need to know the game?",
-      a: "No. The first two weeks of the semester are learn-to-play tables. You'll be declaring by October and insufferable about it by November.",
+      q: "Do I need to know how to play?",
+      a: "No. New players are welcome, and we will explain the rules before games begin. You can learn with an open practice hand before joining a full game.",
     },
     {
-      q: "Do I need to be a quant?",
-      a: "You need to like being right for the right reasons. Majors are irrelevant; inference is universal.",
+      q: "When and where will meetings happen?",
+      a: "We are still confirming the schedule and campus room. Sign up above and we will send the details as soon as they are finalized.",
     },
     {
-      q: "Are you actually Canadian?",
-      a: "Legally, no. Spiritually, on Thursdays.",
+      q: "Who can join?",
+      a: "The club is being organized for UC Berkeley students. No particular major, background, or card-game experience is required.",
     },
     {
       q: "How much does it cost?",
-      a: "Nothing. We removed the 8s from the deck, not the money from your pockets.",
+      a: "We do not currently charge membership dues. If an event ever has a cost, we will share that information before registration.",
     },
   ],
-  footnote: "No experience required. Canadians welcome. Everyone else tolerated warmly.",
+  footnote: "No experience required. All UC Berkeley majors are welcome.",
 } as const
 
 export const FOOTER = {
