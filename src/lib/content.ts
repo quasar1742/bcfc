@@ -295,6 +295,6 @@ export const JOIN = {
 export const FOOTER = {
   blurb: "Berkeley Canadian Fish Club · est. 2026 · Berkeley, CA",
   navHeading: "INDEX",
-  sponsorHeading: "PREMIERE SPONSORS",
+  sponsorHeading: "SPONSORS",
   copyright: "© 2026 BCFC · GO BEARS",
 } as const
