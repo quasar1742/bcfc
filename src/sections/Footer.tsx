@@ -1,17 +1,18 @@
 import { motion, useReducedMotion } from "motion/react"
-import { FOOTER, NAV } from "../lib/content"
+import { FOOTER, NAV, SPONSORS } from "../lib/content"
 import { reveal, revealStagger, staggerChild, VIEWPORT_ONCE } from "../lib/anim"
 import { scrollToId } from "../components/ui"
 import BrandLogo from "../components/BrandLogo"
 
 // ---------------------------------------------------------------------------
-// Footer — berkeley-deep close. Monogram, index, colophon, fine print; a lone
-// gold fish swims the width of it.
+// Footer — berkeley-deep close. Club identity, index and sponsor; a lone gold
+// fish swims the width of it.
 // ---------------------------------------------------------------------------
 
 const COORDINATES = "BERKELEY, CALIFORNIA · 37.8719° N, 122.2585° W"
 
 const FOOTER_LINKS = [...NAV.links, NAV.cta]
+const PREMIERE_SPONSORS = Object.values(SPONSORS)
 
 // Minimal line-art fish, facing right (its direction of travel).
 const FISH_BODY =
@@ -109,16 +110,27 @@ export default function Footer() {
             </ul>
           </motion.nav>
 
-          {/* ---- Colophon & fine print ---- */}
+          {/* ---- Premiere sponsors ---- */}
           <motion.div variants={staggerChild}>
-            <h3 className={HEADING_CLASS}>{FOOTER.colophonHeading}</h3>
-            <p className="mt-4 font-display text-[13px] leading-relaxed text-mist">
-              {FOOTER.colophon}
-            </p>
-            <h3 className={`mt-8 ${HEADING_CLASS}`}>{FOOTER.fineHeading}</h3>
-            <p className="mt-4 font-display text-[13px] leading-relaxed text-mist">
-              {FOOTER.fine}
-            </p>
+            <h3 className={HEADING_CLASS}>{FOOTER.sponsorHeading}</h3>
+            <div className="mt-4 flex flex-wrap gap-3">
+              {PREMIERE_SPONSORS.map((sponsor) => (
+                <a
+                  key={sponsor.name}
+                  href={sponsor.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Visit ${sponsor.name}, BCFC premiere sponsor`}
+                  className="inline-flex h-14 w-48 items-center justify-center rounded-lg bg-paper px-4 transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-[#04151d]"
+                >
+                  <img
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    className="max-h-9 w-auto max-w-[156px]"
+                  />
+                </a>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
 

@@ -21,6 +21,7 @@ export const HERO = {
   sub: "Every question gives the table information. We're starting weekly Canadian Fish games at Berkeley, with beginner tables and tournaments.",
   ctaPrimary: { label: "Take a seat", id: "join" },
   ctaSecondary: { label: "Learn the game", id: "dive" },
+  sponsorLabel: "PREMIERE SPONSOR",
   diveCue: "Scroll to dive",
   askLog: [
     "03:41.202  N → E   ASK 9♥ ......... HIT",
@@ -43,6 +44,19 @@ export const HERO = {
     { rank: "K", suit: "hearts" },
     { rank: "A", suit: "hearts" },
   ] as { rank: string; suit: Suit }[],
+} as const
+
+export const SPONSORS = {
+  janeStreet: {
+    name: "Jane Street",
+    href: "https://www.janestreet.com/",
+    logo: "/jane-street-logo.svg",
+  },
+  traderJoes: {
+    name: "Trader Joe's",
+    href: "https://www.traderjoes.com/home",
+    logo: "/trader-joes-logo.svg",
+  },
 } as const
 
 export const HOW_TO_PLAY = {
@@ -280,11 +294,7 @@ export const JOIN = {
 
 export const FOOTER = {
   blurb: "Berkeley Canadian Fish Club · est. 2026 · Berkeley, CA",
-  colophon:
-    "Set in Hanken Grotesk & JetBrains Mono. Built with React, Motion and three.js. Four 8s were harmed in the making of this club.",
   navHeading: "INDEX",
-  colophonHeading: "COLOPHON",
-  fineHeading: "FINE PRINT",
-  fine: "Not affiliated with any trading firm. Yet.",
-  copyright: "© 2026 BCFC · GO BEARS · sorry.",
+  sponsorHeading: "PREMIERE SPONSORS",
+  copyright: "© 2026 BCFC · GO BEARS",
 } as const

@@ -8,7 +8,7 @@ import {
 import { GoldButton } from "../components/ui"
 import UnderwaterScene from "../hero/UnderwaterScene"
 import { EASE } from "../lib/anim"
-import { HERO } from "../lib/content"
+import { HERO, SPONSORS } from "../lib/content"
 
 type OceanHeroStyle = CSSProperties & {
   "--ocean-shift-x": string
@@ -73,7 +73,10 @@ export default function Hero() {
       >
         <h1 id="hero-title" className="ocean-title">
           {HERO.titleLines.map((line, index) => (
-            <span key={line} className="block overflow-hidden pb-[0.04em]">
+            <span
+              key={line}
+              className="-mx-[0.045em] block overflow-hidden px-[0.045em] pb-[0.04em]"
+            >
               <motion.span
                 className={`block ${index === HERO.titleLines.length - 1 ? "ocean-title-accent" : ""}`}
                 initial={{ y: "108%" }}
@@ -121,6 +124,27 @@ export default function Hero() {
             {HERO.ctaSecondary.label}
           </GoldButton>
         </motion.div>
+
+        <motion.aside
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.62, ease: EASE, delay: 1.04 }}
+          className="ocean-hero-sponsor"
+          aria-label={`${SPONSORS.janeStreet.name}, BCFC premiere sponsor`}
+        >
+          <span>{HERO.sponsorLabel}</span>
+          <a
+            href={SPONSORS.janeStreet.href}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Visit ${SPONSORS.janeStreet.name}`}
+          >
+            <img
+              src={SPONSORS.janeStreet.logo}
+              alt={SPONSORS.janeStreet.name}
+            />
+          </a>
+        </motion.aside>
       </motion.div>
 
       <div className="ocean-hero-handoff" aria-hidden="true" />

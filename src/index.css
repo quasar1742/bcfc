@@ -551,6 +551,11 @@
     right: max(20px, calc((100% - 1152px) / 2));
   }
 
+  .ocean-hero::before,
+  .ocean-hero::after {
+    content: none;
+  }
+
   .ocean-footer::before,
   .ocean-footer::after {
     top: 0;
@@ -969,6 +974,52 @@
     gap: 12px;
   }
 
+  .ocean-hero-sponsor {
+    display: flex;
+    margin-top: 17px;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(239, 253, 247, 0.76);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.075em;
+  }
+
+  .ocean-hero-sponsor > span {
+    white-space: nowrap;
+  }
+
+  .ocean-hero-sponsor a {
+    display: inline-flex;
+    height: 36px;
+    width: 118px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: rgba(250, 246, 234, 0.94);
+    box-shadow: 0 8px 22px rgba(0, 29, 56, 0.14);
+    transition: transform 180ms ease, background-color 180ms ease;
+  }
+
+  .ocean-hero-sponsor a:hover {
+    background: #faf6ea;
+    transform: translateY(-1px);
+  }
+
+  .ocean-hero-sponsor a:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  .ocean-hero-sponsor img {
+    width: auto;
+    max-width: 92px;
+    max-height: 28px;
+    height: auto;
+  }
+
   .ocean-dive-cue {
     position: absolute;
     right: auto;
@@ -1173,6 +1224,24 @@
       min-height: 45px;
       padding: 10px 17px;
       font-size: 13px;
+    }
+
+    .ocean-hero-sponsor {
+      margin-top: 15px;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+    }
+
+    .ocean-hero-sponsor a {
+      height: 32px;
+      width: 106px;
+    }
+
+    .ocean-hero-sponsor img {
+      width: auto;
+      max-width: 84px;
+      max-height: 24px;
     }
 
     .ocean-oski {

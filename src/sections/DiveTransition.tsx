@@ -189,8 +189,8 @@ export default function DiveTransition() {
       id="dive"
       aria-label="Dive beneath the surface"
       className={reduced
-        ? "relative -mb-[10svh] h-[110svh] -translate-y-[10svh]"
-        : "relative -mb-[18svh] h-[258svh] -translate-y-[18svh]"
+        ? "pointer-events-none relative -mb-[10svh] h-[110svh] -translate-y-[10svh]"
+        : "pointer-events-none relative -mb-[18svh] h-[258svh] -translate-y-[18svh]"
       }
     >
       <motion.div
@@ -211,7 +211,7 @@ export default function DiveTransition() {
             dpr={[1, 1.75]}
             gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
             frameloop={inView ? "always" : "never"}
-            className="!absolute !inset-0"
+            className="!pointer-events-none !absolute !inset-0"
             aria-hidden="true"
           >
             <DiveScene progress={scrollYProgress} reduced={reduced} />
