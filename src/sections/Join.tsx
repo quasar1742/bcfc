@@ -181,13 +181,13 @@ export default function Join() {
             <input
               type="hidden"
               name="_subject"
-              value="New BCFC website inquiry"
+              value="New CF@B website inquiry"
             />
             <input type="hidden" name="_template" value="table" />
             <div className="absolute -left-[9999px]" aria-hidden="true">
-              <label htmlFor="bcfc-company">Company</label>
+              <label htmlFor="cfab-company">Company</label>
               <input
-                id="bcfc-company"
+                id="cfab-company"
                 type="text"
                 name="_honey"
                 tabIndex={-1}

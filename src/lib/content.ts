@@ -1,12 +1,12 @@
 // ---------------------------------------------------------------------------
-// BCFC copy deck — the single source of truth for every word on the page.
+// CF@B copy deck — the single source of truth for every word on the page.
 // Voice: 85% trading-floor precision, 15% Canadian absurdism (in the details).
 // ---------------------------------------------------------------------------
 
 export type Suit = "spades" | "hearts" | "clubs" | "diamonds"
 
 export const NAV = {
-  monogram: "BERKELEY CFC",
+  monogram: "CF@B",
   links: [
     { label: "The Game", id: "game" },
     { label: "The Edge", id: "edge" },
@@ -16,7 +16,7 @@ export const NAV = {
 } as const
 
 export const HERO = {
-  titleLines: ["Berkeley", "Canadian Fish Club"],
+  titleLines: ["Canadian Fish", "@ Berkeley"],
   tagline: "A deduction card game for six players.",
   sub: "Every question gives the table information. We're starting weekly Canadian Fish games at Berkeley, with beginner tables and tournaments.",
   ctaPrimary: { label: "Take a seat", id: "join" },
@@ -112,7 +112,7 @@ export const THE_EDGE = {
     },
     {
       kicker: "A NEW CLUB",
-      body: "BCFC is still getting started. Meeting times, rooms, and future events will be shared once they are confirmed, and early members can help shape how the club runs.",
+      body: "CF@B is still getting started. Meeting times, rooms, and future events will be shared once they are confirmed, and early members can help shape how the club runs.",
     },
   ],
   pullQuote:
@@ -171,7 +171,7 @@ export const EVENTS = {
     },
     {
       date: "OCT · DATE TBD",
-      event: "BCFC Invitational I · six-seat bracket",
+      event: "CF@B Invitational I · six-seat bracket",
       venue: "TBD",
       status: "TBD",
     },
@@ -194,7 +194,7 @@ export const TEAM = {
       rank: "A",
       suit: "spades" as Suit,
       role: "CLUB ORGANIZER",
-      note: "Coordinates BCFC and plans the club's first semester.",
+      note: "Coordinates CF@B and plans the club's first semester.",
       open: false,
     },
     {
@@ -293,8 +293,8 @@ export const JOIN = {
 } as const
 
 export const FOOTER = {
-  blurb: "Berkeley Canadian Fish Club · est. 2026 · Berkeley, CA",
+  blurb: "Canadian Fish @ Berkeley · est. 2026 · Berkeley, CA",
   navHeading: "INDEX",
   sponsorHeading: "SPONSORS",
-  copyright: "© 2026 BCFC · GO BEARS",
+  copyright: "© 2026 CF@B · GO BEARS",
 } as const

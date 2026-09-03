@@ -3,7 +3,7 @@ type BrandLogoProps = {
   markOnly?: boolean
 }
 
-// Original BCFC identity: a fish built from three forward planes and a
+// Original CF@B identity: a fish built from three forward planes and a
 // split-tail chevron. It stays legible at favicon size and in one color.
 export function FishMark({ className = "" }: { className?: string }) {
   return (
@@ -76,9 +76,9 @@ export default function BrandLogo({ className = "", markOnly = false }: BrandLog
       <FishMark className="h-9 w-12 shrink-0 text-gold drop-shadow-[0_5px_14px_rgba(231,184,83,0.16)] transition-transform duration-300 group-hover:translate-x-0.5" />
       {!markOnly && (
         <span className="flex flex-col leading-none">
-          <span className="font-display text-[21px] font-bold tracking-[-0.045em]">BCFC</span>
-          <span className="mt-1 font-mono text-[6.5px] font-semibold uppercase tracking-[0.19em] opacity-58">
-            Canadian Fish Club
+          <span className="font-display text-[21px] font-bold tracking-[-0.045em]">CF@B</span>
+          <span className="mt-1 font-mono text-[6.5px] font-semibold uppercase tracking-[0.13em] opacity-58">
+            Canadian Fish @ Berkeley
           </span>
         </span>
       )}

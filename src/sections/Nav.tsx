@@ -15,7 +15,7 @@ import { SuitGlyph } from "../components/cards"
 import BrandLogo, { ProgressFishMark } from "../components/BrandLogo"
 
 // ---------------------------------------------------------------------------
-// Nav — fixed top chrome. Swimming-fish scroll progress, BCFC monogram,
+// Nav — fixed top chrome. Swimming-fish scroll progress, CF@B monogram,
 // mono anchor links + gold JOIN on desktop, full-screen navy overlay on
 // mobile. Transparent at rest; paper glass once the page moves.
 // ---------------------------------------------------------------------------
@@ -205,7 +205,7 @@ export default function Nav() {
           <button
             type="button"
             onClick={scrollTop}
-            aria-label="Berkeley Canadian Fish Club, back to top"
+            aria-label="Canadian Fish @ Berkeley, back to top"
             className={`group flex items-center gap-2 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
               scrolled
                 ? "focus-visible:ring-gold focus-visible:ring-offset-berkeley-deep"
@@ -248,7 +248,7 @@ export default function Nav() {
             onClick={() => setMenuOpen(true)}
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
-            aria-controls="bcfc-mobile-menu"
+            aria-controls="cfab-mobile-menu"
             className={`rounded-sm py-1 font-display text-[15px] font-medium tracking-[-0.01em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 md:hidden ${
               scrolled
                 ? "text-paper hover:text-gold focus-visible:ring-gold"
@@ -265,7 +265,7 @@ export default function Nav() {
         {menuOpen && (
           <motion.div
             ref={overlayRef}
-            id="bcfc-mobile-menu"
+            id="cfab-mobile-menu"
             role="dialog"
             aria-modal="true"
             aria-label="Menu"

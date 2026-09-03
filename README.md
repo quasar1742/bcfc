@@ -1,6 +1,6 @@
-# BCFC — Berkeley Canadian Fish Club
+# CF@B — Canadian Fish @ Berkeley
 
-Landing page for the Berkeley Canadian Fish Club. Six hands. Forty-eight cards. Zero luck.
+Landing page for Canadian Fish @ Berkeley. Six hands. Forty-eight cards. Zero luck.
 
 Architecture inspired by hackmit.org (scroll narrative, staged reveals, hidden admissions-style puzzle, team marquee); skin is quant-firm editorial — Berkeley Blue `#003262`, California Gold `#FDB515`, Fraunces + JetBrains Mono, geometric playing cards with a guilloche card back bearing the maple-leaf-meets-Campanile medallion.
 

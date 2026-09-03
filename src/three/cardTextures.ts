@@ -155,7 +155,7 @@ export function drawBack(): HTMLCanvasElement {
   ctx.font = '500 20px "JetBrains Mono", monospace'
   ctx.textAlign = "center"
   ctx.letterSpacing = "6px"
-  ctx.fillText("BCFC · MMXXVI", cx, cy + 158)
+  ctx.fillText("CF@B · MMXXVI", cx, cy + 158)
   ctx.restore()
   return canvas
 }

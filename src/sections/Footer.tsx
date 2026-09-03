@@ -120,7 +120,7 @@ export default function Footer() {
                   href={sponsor.href}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label={`Visit ${sponsor.name}, BCFC premiere sponsor`}
+                  aria-label={`Visit ${sponsor.name}, CF@B premiere sponsor`}
                   className="inline-flex h-14 w-48 items-center justify-center rounded-lg bg-paper px-4 transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-[#04151d]"
                 >
                   <img

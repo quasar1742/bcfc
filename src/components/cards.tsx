@@ -2,7 +2,7 @@ import { useId, type CSSProperties } from "react"
 import type { Suit } from "../lib/content"
 
 // ---------------------------------------------------------------------------
-// BCFC card system — geometric modern playing cards, drawn in SVG.
+// CF@B card system — geometric modern playing cards, drawn in SVG.
 // Berkeley Blue + California Gold, banknote-guilloche card back with the
 // maple-leaf-meets-Campanile medallion.
 // ---------------------------------------------------------------------------
@@ -392,7 +392,7 @@ export function CardBack({
         fill="var(--color-gold)"
         opacity={0.85}
       >
-        BCFC · MMXXVI
+        CF@B · MMXXVI
       </text>
     </svg>
   )

@@ -130,7 +130,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.62, ease: EASE, delay: 1.04 }}
           className="ocean-hero-sponsor"
-          aria-label={`${SPONSORS.janeStreet.name}, BCFC premiere sponsor`}
+          aria-label={`${SPONSORS.janeStreet.name}, CF@B premiere sponsor`}
         >
           <span>{HERO.sponsorLabel}</span>
           <a

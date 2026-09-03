@@ -1,10 +1,10 @@
-# BCFC — Berkeley Canadian Fish Club: Design Spec
+# CF@B — Canadian Fish @ Berkeley: Design Spec
 
 Single-page landing site. **Architecture stolen from hackmit.org 2026** (scroll narrative, staged reveals, interlocking sections, easter-egg puzzle, team marquee, living footer). **Skin: quant-firm editorial** — 85% Jane Street/Citadel precision, 15% Canadian absurdism (absurdism lives in small details, never the surface).
 
 ## 1. Brand
 
-- **Name:** Berkeley Canadian Fish Club (BCFC). The game: Canadian Fish / Literature — 6 players, 2 teams of 3, 48 cards (8s removed), eight "books" (half-suits) of six, ask-and-deduce, declare to win.
+- **Name:** Canadian Fish @ Berkeley (CF@B). The game: Canadian Fish / Literature — 6 players, 2 teams of 3, 48 cards (8s removed), eight "books" (half-suits) of six, ask-and-deduce, declare to win.
 - **Voice:** confident, precise, dry. Short declarative sentences. Mono for anything data-flavored. The jokes are deadpan and rare. Never exclamation marks except in a joke.
 - **Positioning:** the training ground for Berkeley's future quants — but never claim affiliation with any firm. Footer disclaimer: "Not affiliated with any trading firm. Yet."
 
@@ -65,7 +65,7 @@ From `src/puzzle/PuzzleProvider.tsx`: `usePuzzle()` → `{ open() }`; `<PuzzleMo
 Anchors/nav: `game` (THE GAME), `edge` (THE EDGE), `calendar` (CALENDAR), `table` (THE TABLE), `join` (JOIN — gold button).
 
 ### 5.1 Nav (`src/sections/Nav.tsx`)
-Fixed top, z-50. Paper/95 backdrop-blur when scrolled (transparent at top). Left: monogram "BCFC" in Fraunces semibold + tiny gold SuitGlyph spade. Right: mono links + gold JOIN button. Gold 2px scroll-progress hairline across the very top (`useScroll` + `scaleX`, transformOrigin left). Smooth-scroll to anchors with −88px offset (shared `scrollToId` in ui.tsx). Mobile: links collapse to a minimal menu button → full-screen navy overlay with big Fraunces links (AnimatePresence).
+Fixed top, z-50. Paper/95 backdrop-blur when scrolled (transparent at top). Left: monogram "CF@B" in Fraunces semibold + tiny gold SuitGlyph spade. Right: mono links + gold JOIN button. Gold 2px scroll-progress hairline across the very top (`useScroll` + `scaleX`, transformOrigin left). Smooth-scroll to anchors with −88px offset (shared `scrollToId` in ui.tsx). Mobile: links collapse to a minimal menu button → full-screen navy overlay with big Fraunces links (AnimatePresence).
 
 ### 5.2 Hero (`src/sections/Hero.tsx`) — built by hand (reference implementation)
 Two-column on desktop: left = eyebrow, H1 "Six hands. Forty-eight cards. *Zero luck.*", sub, CTAs. Right = card fan + ask-log + possibility grid. Entrance: headline lines clip-reveal upward staggered; cards deal in one-by-one with firm spring; ask-log lines type on an interval loop; grid cells tick. Stat strip along bottom: `48 CARDS — 8 BOOKS — 6 SEATS — 0 LUCK` (mono, hairline above).
@@ -94,7 +94,7 @@ Kicker `06 / THE FOUNDING TABLE`. Intro line: "Six founding seats. Most of them 
 Huge Fraunces: "Take a seat." Sub: "The interest form takes forty seconds. The habit lasts a career." Buttons: GoldButton solid "INTEREST FORM" (href `#` placeholder), ghost "JOIN THE DISCORD" (`#`), ghost "EMAIL US" (`mailto:canadianfish@berkeley.edu` placeholder). Then mini-FAQ: 4 items, Radix Accordion (from `radix-ui`) with Motion height animation, mono question row + Fraunces answer (copy in content.ts). Footnote mono small, fog: "No experience required. Canadians welcome. Everyone else tolerated warmly."
 
 ### 5.9 Footer (`src/sections/Footer.tsx`) — berkeley-deep.
-Top hairline gold. Grid: monogram + "Berkeley Canadian Fish Club — est. 2026 · Berkeley, CA"; nav links column (mono); "colophon" column: "Set in Fraunces & JetBrains Mono. Built with React + Motion. 48 cards were harmed (well, four 8s)." A small SVG fish (line art, gold) that swims across the footer slowly on a loop (Motion animate x + gentle y sine; reduced-motion hides it). A tiny maple leaf next to the copyright = second puzzle trigger (calls `usePuzzle().open()`). Bottom row mono: "© 2026 BCFC · GO BEARS · sorry." + "Not affiliated with any trading firm. Yet."
+Top hairline gold. Grid: monogram + "Canadian Fish @ Berkeley — est. 2026 · Berkeley, CA"; nav links column (mono); sponsor column. A small SVG fish (line art, gold) swims across the footer slowly on a loop (Motion animate x + gentle y sine; reduced-motion hides it). Bottom row mono: "© 2026 CF@B · GO BEARS" + the Berkeley coordinates.
 
 ## 6. Puzzle spec (already implemented in `src/puzzle/`)
 
